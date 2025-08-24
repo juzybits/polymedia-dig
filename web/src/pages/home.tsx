@@ -5,7 +5,9 @@ import { Transaction } from "@mysten/sui/transactions";
 import { Btn, Card, ConnectOr } from "@polymedia/suitcase-react";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import { networkIds } from "@/app/config";
 import { useAppContext } from "@/app/context";
+import * as dig_module from "@/gen/dig/dig";
 
 export const PageHome = () => {
 	const currAcct = useCurrentAccount();
@@ -17,6 +19,13 @@ export const PageHome = () => {
 				throw new Error("Not connected");
 			}
 			const tx = new Transaction();
+			tx.add(
+				dig_module.dig({
+					arguments: {
+						hole: networkIds.holeObjId,
+					},
+				}),
+			);
 			return signAndExecuteTx({ tx, sender: currAcct.address });
 		},
 		onSuccess: (resp) => {

@@ -150,3 +150,25 @@ export function userDigs(options: UserDigsOptions) {
         arguments: normalizeMoveArguments(options.arguments, argumentsTypes, parameterNames),
     });
 }
+export interface DigArguments {
+    hole: RawTransactionArgument<string>;
+}
+export interface DigOptions {
+    package?: string;
+    arguments: DigArguments | [
+        hole: RawTransactionArgument<string>
+    ];
+}
+export function dig(options: DigOptions) {
+    const packageAddress = options.package ?? '@local-pkg/dig';
+    const argumentsTypes = [
+        `${packageAddress}::dig::Hole`
+    ] satisfies string[];
+    const parameterNames = ["hole"];
+    return (tx: Transaction) => tx.moveCall({
+        package: packageAddress,
+        module: 'dig',
+        function: 'dig',
+        arguments: normalizeMoveArguments(options.arguments, argumentsTypes, parameterNames),
+    });
+}
