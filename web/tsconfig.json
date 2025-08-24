@@ -1,0 +1,51 @@
+{
+	"include": ["${configDir}/src"],
+	"exclude": ["${configDir}/dist", "${configDir}/node_modules"],
+	"compilerOptions": {
+		/* Language and Environment */
+		"target": "ESNext", // Set the JavaScript language version for emitted JavaScript and include compatible library declarations.
+		"lib": ["ESNext", "DOM", "DOM.Iterable"], // A set of bundled library declaration files that describe the target runtime environment.
+		"useDefineForClassFields": true, // Emit ECMAScript-standard-compliant class fields.
+		"moduleDetection": "force", // Ensures that every non-declaration file is treated as a module.
+		"jsx": "react-jsx", // Controls how JSX constructs are emitted in JavaScript files.
+
+		/* Modules */
+		"module": "ESNext", // What module code is generated.
+		"moduleResolution": "bundler", // How TypeScript looks up a file from a given module specifier.
+		"rootDir": "${configDir}/src", // The root folder within your source files.
+		"resolveJsonModule": true, // Enable importing .json files.
+		"noUncheckedSideEffectImports": true, // Error on side effect imports that can't be resolved.
+		"types": ["vite/client"],
+
+		/* Emit */
+		"declaration": true, // Generate .d.ts files from TypeScript and JavaScript files in your project.
+		"sourceMap": true, // Create source map files for emitted JavaScript files.
+		"outDir": "${configDir}/dist", // An output folder for all emitted files.
+
+		/* Interop Constraints */
+		"isolatedModules": true, // Ensure that each file can be safely transpiled without relying on other imports.
+		"forceConsistentCasingInFileNames": true, // Ensure that casing is correct in imports.
+		"verbatimModuleSyntax": true, // Enforce explicit type-only imports with `import type`.
+		"erasableSyntaxOnly": true, // Prevents the use of runtime constructs that are not part of ECMAScript.
+
+		/* Type Checking */
+		"strict": true, // Enable all strict type-checking options.
+		"noUnusedLocals": true, // Enable error reporting when local variables aren't read.
+		"noUnusedParameters": true, // Raise an error when a function parameter isn't read.
+		"noImplicitReturns": true, // Check all code paths in a function to ensure they return a value.
+		"noImplicitOverride": true, // Function overrides must be explicitly marked with the `override` modifier.
+		"noFallthroughCasesInSwitch": true, // Ensure that non-empty cases inside a switch statement include either break, return, or throw.
+		"noUncheckedIndexedAccess": true, // obj["key"] returns `string | undefined`.
+		"noPropertyAccessFromIndexSignature": true, // obj.unknownProp → error, use obj["unknownProp"].
+		"exactOptionalPropertyTypes": true, // Distinguish between undefined and missing optional properties
+
+		/* Completeness */
+		"skipLibCheck": true, // Skip type checking all .d.ts files.
+
+		/* Paths aliases */
+		"baseUrl": "./src",
+		"paths": {
+			"@/*": ["./*"]
+		}
+	}
+}
