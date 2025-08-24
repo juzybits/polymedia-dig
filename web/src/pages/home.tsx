@@ -8,7 +8,7 @@ export const PageHome = () => {
 	useEffect(() => {
 		if (!mountRef.current) return;
 
-		// Scene setup
+		// scene setup
 		const scene = new THREE.Scene();
 		const camera = new THREE.PerspectiveCamera(
 			75,
@@ -20,7 +20,7 @@ export const PageHome = () => {
 		renderer.setSize(window.innerWidth, window.innerHeight);
 		mountRef.current.appendChild(renderer.domElement);
 
-		// Transparent Earth
+		// earth
 		const earthGeometry = new THREE.SphereGeometry(1, 32, 32);
 		const earthMaterial = new THREE.MeshBasicMaterial({
 			color: 0x4488ff,
@@ -31,13 +31,10 @@ export const PageHome = () => {
 		const earth = new THREE.Mesh(earthGeometry, earthMaterial);
 		scene.add(earth);
 
-		// Camera position
 		camera.position.z = 3;
-
-		// Orbit Controls
 		const controls = new OrbitControls(camera, renderer.domElement);
 
-		// Convert lat/lng to 3D coordinates
+		// convert lat/lng to 3D coordinates
 		function latLngToVector3(
 			lat: number,
 			lng: number,
@@ -45,45 +42,102 @@ export const PageHome = () => {
 		): THREE.Vector3 {
 			const phi = (90 - lat) * (Math.PI / 180);
 			const theta = (lng + 180) * (Math.PI / 180);
-
 			const x = -(radius * Math.sin(phi) * Math.cos(theta));
 			const z = radius * Math.sin(phi) * Math.sin(theta);
 			const y = radius * Math.cos(phi);
-
 			return new THREE.Vector3(x, y, z);
 		}
 
-		// Draw straight line through earth (tunnel)
-		function drawLineBetweenPoints(
+		// create city marker with bright green dot and label
+		function createCityMarker(position: THREE.Vector3, cityName: string) {
+			// bright green dot
+			const dotGeometry = new THREE.SphereGeometry(0.02, 16, 16);
+			const dotMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+			const dot = new THREE.Mesh(dotGeometry, dotMaterial);
+			dot.position.copy(position);
+			scene.add(dot);
+
+			// text label
+			const canvas = document.createElement("canvas");
+			const context = canvas.getContext("2d");
+			if (!context) return;
+
+			canvas.width = 512;
+			canvas.height = 128;
+			context.font = "48px Arial";
+			context.fillStyle = "white";
+			context.strokeStyle = "black";
+			context.lineWidth = 2;
+			context.textAlign = "center";
+
+			context.strokeText(cityName, canvas.width / 2, 70);
+			context.fillText(cityName, canvas.width / 2, 70);
+
+			const texture = new THREE.CanvasTexture(canvas);
+			const labelMaterial = new THREE.SpriteMaterial({
+				map: texture,
+				transparent: true,
+			});
+			const sprite = new THREE.Sprite(labelMaterial);
+			sprite.scale.set(1, 0.25, 1);
+			sprite.position.copy(position.clone().multiplyScalar(1.15));
+			scene.add(sprite);
+		}
+
+		// draw partial tunnel line based on digging percentage
+		function createTunnelLine(
 			lat1: number,
 			lng1: number,
 			lat2: number,
 			lng2: number,
+			digProgress: number, // 0 to 1
 		) {
-			const point1 = latLngToVector3(lat1, lng1);
-			const point2 = latLngToVector3(lat2, lng2);
+			const startPoint = latLngToVector3(lat1, lng1);
+			const endPoint = latLngToVector3(lat2, lng2);
 
-			const points = [point1, point2];
+			// calculate current dig endpoint
+			const currentEnd = new THREE.Vector3().lerpVectors(
+				startPoint,
+				endPoint,
+				digProgress,
+			);
+
+			const points = [startPoint, currentEnd];
 			const geometry = new THREE.BufferGeometry().setFromPoints(points);
-			const material = new THREE.LineBasicMaterial({ color: 0xff0000, linewidth: 2 });
-			const line = new THREE.Line(geometry, material);
+			const material = new THREE.LineBasicMaterial({
+				color: 0xff0000,
+				linewidth: 3,
+			});
 
-			scene.add(line);
+			return new THREE.Line(geometry, material);
 		}
 
-		// Argentina (-34.6037, -58.3816) to Japan (35.6762, 139.6503)
-		drawLineBetweenPoints(-34.6037, -58.3816, 35.6762, 139.6503);
+		const argentina = { lat: -34.6037, lng: -58.3816 };
+		const japan = { lat: 35.6762, lng: 139.6503 };
 
-		// Animation loop
+		// add bright green city markers
+		createCityMarker(latLngToVector3(argentina.lat, argentina.lng), "Argentina");
+		createCityMarker(latLngToVector3(japan.lat, japan.lng), "Japan");
+
+		// fixed 33% tunnel progress
+		const digProgress = 0.33;
+		const tunnelLine = createTunnelLine(
+			argentina.lat,
+			argentina.lng,
+			japan.lat,
+			japan.lng,
+			digProgress,
+		);
+		scene.add(tunnelLine);
+
 		function animate() {
 			requestAnimationFrame(animate);
-			earth.rotation.y += 0.005; // rotate earth
+			earth.rotation.y += 0.003;
 			controls.update();
 			renderer.render(scene, camera);
 		}
 		animate();
 
-		// Cleanup
 		return () => {
 			if (mountRef.current && renderer.domElement) {
 				mountRef.current.removeChild(renderer.domElement);
@@ -93,7 +147,7 @@ export const PageHome = () => {
 
 	return (
 		<div className="page-regular">
-			<div className="page-title">HOME</div>
+			<div className="page-title">I'm digging a hole</div>
 			<div ref={mountRef} style={{ width: "100%", height: "500px" }} />
 		</div>
 	);
