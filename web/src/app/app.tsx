@@ -7,13 +7,17 @@ import {
 	WalletProvider,
 } from "@mysten/dapp-kit";
 import "@mysten/dapp-kit/dist/index.css";
-import { CoinMetaFetcher } from "@polymedia/suitcase-core";
+import { SuiClient } from "@mysten/sui/client";
+import {
+	CoinMetaFetcher,
+	newSignAndExecuteTx,
+	type SignAndExecuteTx,
+	TxErrorParser,
+} from "@polymedia/suitcase-core";
 import {
 	type ExplorerName,
 	Glitch,
 	IconGears,
-	IconHistory,
-	IconNew,
 	loadExplorer,
 	loadRpc,
 	type Setter,
@@ -22,10 +26,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import { BrowserRouter, Link, Outlet, Route, Routes } from "react-router-dom";
-import { network } from "@/app/config";
+import { errorsByPackage, network, networkIds } from "@/app/config";
 import { AppContext } from "@/app/context";
-import { TxErrorParser } from "@/lib/errors";
-import { newSignAndExecuteTx, type SignAndExecuteTx } from "@/lib/txs";
 import { PageHome } from "@/pages/home";
 import { PageNotFound } from "@/pages/not-found";
 import { PageSettings } from "@/pages/settings";
@@ -52,7 +54,22 @@ const AppSuiProviders = () => {
 	const [rpc, setRpc] = useState(loadRpc({ network }));
 	return (
 		<QueryClientProvider client={queryClient}>
-			<SuiClientProvider networks={{ [network]: { url: rpc } }} network={network}>
+			<SuiClientProvider
+				networks={{ [network]: { url: rpc } }}
+				network={network}
+				createClient={(_network, config) => {
+					return new SuiClient({
+						url: config.url,
+						mvr: {
+							overrides: {
+								packages: {
+									"@local-pkg/dig": networkIds.digPkgId,
+								},
+							},
+						},
+					});
+				}}
+			>
 				<WalletProvider autoConnect={true}>
 					<App rpc={rpc} setRpc={setRpc} />
 				</WalletProvider>
@@ -144,12 +161,6 @@ const Header = () => {
 					)}
 				</Link>
 			</div>
-			<Link to="/new" className="header-item" title="Create Auction">
-				<IconNew />
-			</Link>
-			<Link to="/user" className="header-item" title="Your History">
-				<IconHistory />
-			</Link>
 			<Link to="/settings" className="header-item" title="Settings">
 				<IconGears />
 			</Link>
