@@ -1,0 +1,8 @@
+[package]
+name = "dig"
+edition = "2024.beta"
+
+[dependencies]
+
+[addresses]
+dig = "0x0"
