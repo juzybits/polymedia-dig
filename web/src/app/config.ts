@@ -1,6 +1,6 @@
 import type { ErrorsByPackage, NetworkName } from "@polymedia/suitcase-core";
 
-export const network: NetworkName = "localnet" as const;
+export const network: NetworkName = "mainnet" as const;
 
 export const networkIds = {
 	mainnet: {
