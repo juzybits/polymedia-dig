@@ -8,8 +8,8 @@ export const networkIds = {
 		holeObjId: "0xedaa74161d02eed779518c9e11a31f0b29bcc29f5f510d6641ddaf64ec79d858",
 	},
 	testnet: {
-		digPkgId: "",
-		holeObjId: "",
+		digPkgId: "0xdd1e682de1cb85bad554e4db5bd172e8079478e0de7b0b6e8e244e63d06493d9",
+		holeObjId: "0xf0dc3fe90af9168b5bf8f59245f210bb2a0a44879c5716e34d17cae56562f08e",
 	},
 	devnet: {
 		digPkgId: "0xb4fa3e6c94aa99ff2cf32e4556ff958ecf4875e2614ac8e8300720bec370ca8d",
