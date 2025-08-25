@@ -113,14 +113,16 @@ export const EarthVisualization = ({
 				digProgress,
 			);
 
-			const points = [startPoint, currentEnd];
-			const geometry = new THREE.BufferGeometry().setFromPoints(points);
-			const material = new THREE.LineBasicMaterial({
+			// create a curve from start to current end
+			const curve = new THREE.LineCurve3(startPoint, currentEnd);
+
+			// create tube geometry for thick line
+			const tubeGeometry = new THREE.TubeGeometry(curve, 20, 0.01, 8, false);
+			const tubeMaterial = new THREE.MeshBasicMaterial({
 				color: 0xff0000,
-				linewidth: 3,
 			});
 
-			return new THREE.Line(geometry, material);
+			return new THREE.Mesh(tubeGeometry, tubeMaterial);
 		}
 
 		const argentina = { lat: -34.6037, lng: -58.3816 };
