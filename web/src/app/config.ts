@@ -16,8 +16,8 @@ export const networkIds = {
 		holeObjId: "",
 	},
 	localnet: {
-		digPkgId: "0x01497e97d64aac81be68fc9cbfa7933d0c4b10dc39f4a85dda84ae2a774d36bc",
-		holeObjId: "0x987c912519b07c6348756a06cafdfaafb363dba15b79ab997beb36d72030607c",
+		digPkgId: "0xed3a85ea6794f8c5e2666ef42a4aea44ccffb4783ffa44f67ff0bb12bfbf692b",
+		holeObjId: "0x250e9a3566195d769a1377e1b174d05d8ad337288dc186a40039d930bb306212",
 	},
 }[network];
 

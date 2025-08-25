@@ -45,6 +45,7 @@ public fun user_digs(hole: &Hole, user: address): u64 {
 
 entry fun dig(
    hole: &mut Hole,
+   _random: &Random,
    ctx: &TxContext,
 ) {
    assert!(hole.progress < hole.distance, EAlreadyCompleted);

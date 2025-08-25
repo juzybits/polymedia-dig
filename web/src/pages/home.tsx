@@ -26,7 +26,7 @@ export const PageHome = () => {
 					},
 				}),
 			);
-			return signAndExecuteTx({ tx, sender: currAcct.address });
+			return signAndExecuteTx({ tx, sender: currAcct.address, dryRun: false });
 		},
 		onSuccess: (resp) => {
 			toast.success("Success!");

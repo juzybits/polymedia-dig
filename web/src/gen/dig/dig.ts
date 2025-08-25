@@ -162,9 +162,10 @@ export interface DigOptions {
 export function dig(options: DigOptions) {
     const packageAddress = options.package ?? '@local-pkg/dig';
     const argumentsTypes = [
-        `${packageAddress}::dig::Hole`
+        `${packageAddress}::dig::Hole`,
+        '0x0000000000000000000000000000000000000000000000000000000000000002::random::Random'
     ] satisfies string[];
-    const parameterNames = ["hole"];
+    const parameterNames = ["hole", "Random"];
     return (tx: Transaction) => tx.moveCall({
         package: packageAddress,
         module: 'dig',
