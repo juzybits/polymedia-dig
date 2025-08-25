@@ -143,7 +143,13 @@ const App = (args: { rpc: string; setRpc: Setter<string> }) => {
 					setShowConnectModal(isOpen);
 				}}
 			/>
-			<Toaster position="bottom-right" containerStyle={{ marginTop: 23 }} />
+			<Toaster
+				position="bottom-right"
+				containerStyle={{ marginTop: 23 }}
+				toastOptions={{
+					duration: 3000,
+				}}
+			/>
 		</AppContext.Provider>
 	);
 };
