@@ -123,7 +123,7 @@ const EarthCard = ({ hole }: { hole: typeof Hole.$inferType | undefined }) => {
 			<div className="earth-stats">
 				<div>
 					{remaining > 0
-						? `${(remaining / 1000).toFixed(4)}km to Japan`
+						? `${remaining.toLocaleString()}m to Japan`
 						: "hole is complete"}
 				</div>
 				<div>
