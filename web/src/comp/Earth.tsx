@@ -36,7 +36,7 @@ export const EarthVisualization = () => {
 		const earth = new THREE.Mesh(earthGeometry, earthMaterial);
 		scene.add(earth);
 
-		camera.position.z = 3;
+		camera.position.z = 1.8;
 		const controls = new OrbitControls(camera, renderer.domElement);
 
 		// convert lat/lng to 3D coordinates
