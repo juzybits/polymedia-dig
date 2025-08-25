@@ -132,14 +132,19 @@ export const PageHome = () => {
 
 const EarthCard = ({ hole }: { hole: typeof Hole.$inferType | undefined }) => {
 	if (!hole) return <CardSpinner />;
-	const progress = Number(hole.progress) / Number(hole.distance);
-	const remaining = Number(hole.distance) - Number(hole.progress);
+	const progress = Number(hole.progress);
+	const distance = Number(hole.distance);
+	const progressPct = progress / distance;
+	const remaining = distance - progress;
 	return (
 		<Card className="earth-card">
-			<Earth3D progress={progress} />
+			<Earth3D progress={progressPct} />
 			<div className="earth-stats">
 				<div>
 					{remaining > 0 ? `${remaining.toLocaleString()}m to Japan` : "hole is complete"}
+				</div>
+				<div>
+					{progress.toLocaleString()}m dug so far
 				</div>
 				<div>
 					{hole.users.size} digger{hole?.users.size === "1" ? "" : "s"}
