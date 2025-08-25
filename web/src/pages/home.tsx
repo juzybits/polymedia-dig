@@ -59,13 +59,15 @@ export const PageHome = () => {
 
 	return (
 		<div className="page-regular">
-			<div className="page-title">We're digging a hole</div>
+			<div className="page-title">We Are Digging A Hole</div>
 			<Card>
-				<ConnectOr openConnectModal={openConnectModal}>
-					<Btn onClick={() => dig.mutate()} disabled={dig.isPending}>
-						{dig.isPending ? "DIGGING..." : "DIG HOLE"}
-					</Btn>
-				</ConnectOr>
+				<div className="center-text">
+					<ConnectOr openConnectModal={openConnectModal} wrap={false}>
+						<Btn onClick={() => dig.mutate()} disabled={dig.isPending} wrap={false}>
+							{dig.isPending ? "DIGGING..." : "DIG HOLE"}
+						</Btn>
+					</ConnectOr>
+				</div>
 			</Card>
 			<EarthCard hole={hole.data} />
 			<FaqCard />

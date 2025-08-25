@@ -16,8 +16,8 @@ export const PageSettings = () => {
 		<div className="page-regular">
 			<div className="page-title">SETTINGS</div>
 			<SectionConnection />
-			<SectionExplorer />
 			<SectionRpc />
+			<SectionExplorer />
 		</div>
 	);
 };

@@ -155,7 +155,7 @@ const Header = () => {
 		<header>
 			<div className="header-item">
 				<Link to="/">
-					<Glitch text="DIG" />
+					<Glitch text="⛏️" />
 					{network !== "mainnet" && (
 						<span className="header-network-label">{network}</span>
 					)}
