@@ -1,3 +1,0 @@
-overrides:
-  '@polymedia/suitcase-core': link:../../suitcase/src/core
-  '@polymedia/suitcase-react': link:../../suitcase/src/react
