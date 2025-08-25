@@ -112,7 +112,7 @@ export const PageHome = () => {
 			<div className="page-title">we're digging a hole</div>
 			<Card>
 				<div className="center-text">
-					<ConnectOr openConnectModal={openConnectModal} wrap={false}>
+					<ConnectOr openConnectModal={openConnectModal} btnMsg="START" wrap={false}>
 						<Btn onClick={() => dig.mutate()} disabled={dig.isPending} wrap={false}>
 							{dig.isPending ? "DIGGING..." : "DIG HOLE"}
 						</Btn>
