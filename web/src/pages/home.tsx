@@ -81,7 +81,7 @@ const EarthCard = ({ hole }: { hole: typeof Hole.$inferType | undefined }) => {
 					<div>
 						{((Number(hole.progress) / Number(hole.distance)) * 100).toFixed(4)}% complete
 					</div>
-					<div>{hole.users.size} diggers</div>
+					<div>{hole.users.size} digger{hole?.users.size === "1" ? "" : "s"}</div>
 				</div>
 			)}
 		</Card>
