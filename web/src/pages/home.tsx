@@ -1,5 +1,3 @@
-import { EarthVisualization } from "@/comp/Earth";
-
 import { useCurrentAccount, useSuiClient } from "@mysten/dapp-kit";
 import { Transaction } from "@mysten/sui/transactions";
 import { objResToBcs } from "@polymedia/suitcase-core";
@@ -14,6 +12,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { network, networkIds } from "@/app/config";
 import { useAppContext } from "@/app/context";
+import { EarthVisualization } from "@/comp/Earth";
 import * as dig_module from "@/gen/dig/dig";
 import { Hole } from "@/gen/dig/dig";
 

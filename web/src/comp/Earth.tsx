@@ -2,13 +2,7 @@ import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
-export const EarthVisualization = ({
-	width = "100%",
-	height = "500px",
-}: {
-	width?: string | number;
-	height?: string | number;
-}) => {
+export const EarthVisualization = () => {
 	const mountRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
@@ -161,15 +155,24 @@ export const EarthVisualization = ({
 			renderer.setSize(newWidth, newHeight);
 		};
 
-		window.addEventListener('resize', handleResize);
+		window.addEventListener("resize", handleResize);
 
 		return () => {
-			window.removeEventListener('resize', handleResize);
+			window.removeEventListener("resize", handleResize);
 			if (mountRef.current && renderer.domElement) {
 				mountRef.current.removeChild(renderer.domElement);
 			}
 		};
 	}, []);
 
-	return <div ref={mountRef} style={{ width, height }} />;
+	return (
+		<div
+			className="earth"
+			ref={mountRef}
+			style={{
+				width: "100%",
+				aspectRatio: "1 / 1",
+			}}
+		/>
+	);
 };
