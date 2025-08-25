@@ -90,6 +90,37 @@ export const Earth3D = ({ progress }: { progress: number | null }) => {
 			scene.add(sprite);
 		}
 
+		// create progress indicator at the tip of the tunnel
+		function createProgressIndicator(position: THREE.Vector3, progressValue: number) {
+			// create canvas for progress text
+			const canvas = document.createElement("canvas");
+			const context = canvas.getContext("2d");
+			if (!context) return;
+
+			const progressText = `${(progressValue * 100).toFixed(2)}%`;
+
+			canvas.width = 256;
+			canvas.height = 64;
+			context.font = "24px Arial";
+			context.fillStyle = "#ffff00"; // bright yellow for visibility
+			context.strokeStyle = "black";
+			context.lineWidth = 1;
+			context.textAlign = "center";
+
+			context.strokeText(progressText, canvas.width / 2, 40);
+			context.fillText(progressText, canvas.width / 2, 40);
+
+			const texture = new THREE.CanvasTexture(canvas);
+			const labelMaterial = new THREE.SpriteMaterial({
+				map: texture,
+				transparent: true,
+			});
+			const sprite = new THREE.Sprite(labelMaterial);
+			sprite.scale.set(1, 0.25, 1); // smaller than city labels
+			sprite.position.copy(position.clone().multiplyScalar(1.1)); // slightly offset from surface
+			scene.add(sprite);
+		}
+
 		// draw partial tunnel line based on digging percentage
 		function createTunnelLine(
 			lat1: number,
@@ -133,6 +164,17 @@ export const Earth3D = ({ progress }: { progress: number | null }) => {
 				progress,
 			);
 			scene.add(tunnelLine);
+
+			// add progress indicator at the tip of the tunnel
+			const startPoint = latLngToVector3(argentina.lat, argentina.lng);
+			const endPoint = latLngToVector3(japan.lat, japan.lng);
+			const currentTipPosition = new THREE.Vector3().lerpVectors(
+				startPoint,
+				endPoint,
+				progress,
+			);
+
+			createProgressIndicator(currentTipPosition, progress);
 		}
 
 		function animate() {

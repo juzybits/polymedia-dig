@@ -149,9 +149,9 @@ const App = (args: { rpc: string; setRpc: Setter<string> }) => {
 				toastOptions={{
 					duration: 3500,
 					style: {
-						background: 'rgb(4 30 40)', // --color-subcard-bg
-						color: 'rgb(225 225 225)',   // --color-text
-						border: '1px solid rgb(138 145 158 / 15%)', // --border-gray
+						background: "rgb(4 30 40)", // --color-subcard-bg
+						color: "rgb(225 225 225)", // --color-text
+						border: "1px solid rgb(138 145 158 / 15%)", // --border-gray
 					},
 				}}
 			/>

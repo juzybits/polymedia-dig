@@ -1,7 +1,13 @@
 import { useCurrentAccount, useSuiClient } from "@mysten/dapp-kit";
 import { Transaction } from "@mysten/sui/transactions";
 import { objResToBcs } from "@polymedia/suitcase-core";
-import { Btn, Card, ConnectOr, isLocalhost } from "@polymedia/suitcase-react";
+import {
+	Btn,
+	Card,
+	CardSpinner,
+	ConnectOr,
+	isLocalhost,
+} from "@polymedia/suitcase-react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { networkIds } from "@/app/config";
@@ -11,7 +17,7 @@ import * as dig_module from "@/gen/dig/dig";
 import { Hole } from "@/gen/dig/dig";
 import { randomSuccessMessage } from "@/lib/messages";
 
-const dryRun = true;
+const dryRun = false;
 
 export const PageHome = () => {
 	const suiClient = useSuiClient();
@@ -79,21 +85,18 @@ export const PageHome = () => {
 };
 
 const EarthCard = ({ hole }: { hole: typeof Hole.$inferType | undefined }) => {
-	const progress = !hole ? null : Number(hole.progress) / Number(hole.distance);
+	if (!hole) return <CardSpinner />;
+	const progress = Number(hole.progress) / Number(hole.distance);
+	const remaining = Number(hole.distance) - Number(hole.progress);
 	return (
 		<Card className="earth-card">
 			<Earth3D progress={progress} />
-			{hole && (
-				<div className="earth-stats">
-					<div>{(Number(hole.distance) / 1000).toFixed(0)}km to Japan</div>
-					<div>
-						{((Number(hole.progress) / Number(hole.distance)) * 100).toFixed(4)}% complete
-					</div>
-					<div>
-						{hole.users.size} digger{hole?.users.size === "1" ? "" : "s"}
-					</div>
+			<div className="earth-stats">
+				<div>{(remaining / 1000).toFixed(4)}km to Japan</div>
+				<div>
+					{hole.users.size} digger{hole?.users.size === "1" ? "" : "s"}
 				</div>
-			)}
+			</div>
 		</Card>
 	);
 };
