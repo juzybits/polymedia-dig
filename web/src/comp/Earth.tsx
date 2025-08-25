@@ -14,16 +14,21 @@ export const EarthVisualization = ({
 	useEffect(() => {
 		if (!mountRef.current) return;
 
+		// get container dimensions
+		const container = mountRef.current;
+		const containerWidth = container.clientWidth;
+		const containerHeight = container.clientHeight;
+
 		// scene setup
 		const scene = new THREE.Scene();
 		const camera = new THREE.PerspectiveCamera(
 			75,
-			window.innerWidth / window.innerHeight,
+			containerWidth / containerHeight,
 			0.1,
 			1000,
 		);
 		const renderer = new THREE.WebGLRenderer({ alpha: true });
-		renderer.setSize(window.innerWidth, window.innerHeight);
+		renderer.setSize(containerWidth, containerHeight);
 		mountRef.current.appendChild(renderer.domElement);
 
 		// earth
@@ -144,7 +149,20 @@ export const EarthVisualization = ({
 		}
 		animate();
 
+		// handle window resize
+		const handleResize = () => {
+			const newWidth = container.clientWidth;
+			const newHeight = container.clientHeight;
+
+			camera.aspect = newWidth / newHeight;
+			camera.updateProjectionMatrix();
+			renderer.setSize(newWidth, newHeight);
+		};
+
+		window.addEventListener('resize', handleResize);
+
 		return () => {
+			window.removeEventListener('resize', handleResize);
 			if (mountRef.current && renderer.domElement) {
 				mountRef.current.removeChild(renderer.domElement);
 			}
