@@ -76,13 +76,20 @@ export const PageHome = () => {
 				throw new Error("Not connected");
 			}
 			const tx = new Transaction();
-			tx.add(
-				dig_module.dig({
-					arguments: {
-						hole: networkIds.holeObjId,
-					},
-				}),
-			);
+			// tx.add(
+			// 	dig_module.dig({
+			// 		arguments: {
+			// 			hole: networkIds.holeObjId,
+			// 		},
+			// 	}),
+			// );
+			tx.moveCall({
+				target: `${networkIds.digPkgId}::dig::dig`,
+				arguments: [
+					tx.object(networkIds.holeObjId),
+					tx.object("0x8"),
+				],
+			});
 			return signAndExecuteTx({ tx, sender: currAcct.address, dryRun });
 		},
 		onSuccess: (resp) => {
