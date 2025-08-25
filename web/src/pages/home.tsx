@@ -74,14 +74,22 @@ export const PageHome = () => {
 	);
 };
 
-const EarthCard = ({ hole, progress }: { hole: typeof Hole.$inferType | null | undefined; progress: number | null }) => {
+const EarthCard = ({
+	hole,
+	progress,
+}: {
+	hole: typeof Hole.$inferType | null | undefined;
+	progress: number | null;
+}) => {
 	return (
 		<Card className="earth-card">
 			<Earth3D progress={progress} />
 			{hole && (
 				<div className="earth-stats">
 					<div>{(Number(hole.distance) / 1000).toFixed(0)}km to Japan</div>
-					<div>{((Number(hole.progress) / Number(hole.distance)) * 100).toFixed(4)}% complete</div>
+					<div>
+						{((Number(hole.progress) / Number(hole.distance)) * 100).toFixed(4)}% complete
+					</div>
 					<div>{hole.users.size} diggers</div>
 				</div>
 			)}
