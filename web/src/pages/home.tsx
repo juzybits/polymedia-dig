@@ -103,19 +103,23 @@ const FaqCard = () => {
 				</div>
 				<div className="faq">
 					<p className="faq-question">A hole for what?</p>
-					<p className="faq-answer">More digging.</p>
+					<p className="faq-answer">To get to Japan.</p>
 				</div>
 				<div className="faq">
-					<p className="faq-question">Why is it called J-HOLE?</p>
-					<p className="faq-answer">Because it's a hole that goes to Japan.</p>
+					<p className="faq-question">What happens when you get there?</p>
+					<p className="faq-answer">We stop digging.</p>
 				</div>
 				<div className="faq">
-					<p className="faq-question">So you wouldn't mind if I was to dig too?</p>
+					<p className="faq-question">And then?</p>
+					<p className="faq-answer">Then there is a hole.</p>
+				</div>
+				<div className="faq">
+					<p className="faq-question">What's the utility?</p>
+					<p className="faq-answer">It's a hole.</p>
+				</div>
+				<div className="faq">
+					<p className="faq-question">Can I dig too?</p>
 					<p className="faq-answer">Go for it.</p>
-				</div>
-				<div className="faq">
-					<p className="faq-question">Maybe I will.</p>
-					<p className="faq-answer">What's stopping you?</p>
 				</div>
 			</div>
 		</Card>
