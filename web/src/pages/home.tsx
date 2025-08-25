@@ -1,6 +1,7 @@
 import { useCurrentAccount, useSuiClient } from "@mysten/dapp-kit";
+import { bcs } from "@mysten/sui/bcs";
 import { Transaction } from "@mysten/sui/transactions";
-import { objResToBcs } from "@polymedia/suitcase-core";
+import { devInspectAndGetReturnValues, objResToBcs } from "@polymedia/suitcase-core";
 import {
 	Btn,
 	Card,
@@ -18,6 +19,7 @@ import { Hole } from "@/gen/dig/dig";
 import { randomSuccessMessage } from "@/lib/messages";
 
 const dryRun = false;
+const refetchInterval = isLocalhost() ? 5_000 : 10_000;
 
 export const PageHome = () => {
 	const suiClient = useSuiClient();
@@ -34,7 +36,29 @@ export const PageHome = () => {
 				})
 				.then((objRes) => Hole.fromBase64(objResToBcs(objRes)));
 		},
-		refetchInterval: isLocalhost() ? 5_000 : 10_000,
+		refetchInterval,
+	});
+
+	const userDigs = useQuery({
+		queryKey: ["userDigs", currAcct?.address],
+		queryFn: async () => {
+			if (!currAcct) {
+				throw new Error("Not connected");
+			}
+			const tx = new Transaction();
+			tx.add(
+				dig_module.userDigs({
+					arguments: {
+						hole: networkIds.holeObjId,
+						user: currAcct.address,
+					},
+				}),
+			);
+			const blockReturns = await devInspectAndGetReturnValues(suiClient, tx, [[bcs.U64]]);
+			return Number(blockReturns[0]![0]!);
+		},
+		enabled: !!currAcct,
+		refetchInterval,
 	});
 
 	const dig = useMutation({
@@ -75,6 +99,11 @@ export const PageHome = () => {
 						<Btn onClick={() => dig.mutate()} disabled={dig.isPending} wrap={false}>
 							{dig.isPending ? "DIGGING..." : "DIG HOLE"}
 						</Btn>
+						{userDigs.data && userDigs.data > 0 && (
+							<div className="user-digs">
+								You dug {userDigs.data} time{userDigs.data === 1 ? "" : "s"}
+							</div>
+						)}
 					</ConnectOr>
 				</div>
 			</Card>
