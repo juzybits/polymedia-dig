@@ -56,7 +56,7 @@ export const EarthVisualization = () => {
 		// create city marker with bright green dot and label
 		function createCityMarker(position: THREE.Vector3, cityName: string) {
 			// bright green dot
-			const dotGeometry = new THREE.SphereGeometry(0.03, 16, 16);
+			const dotGeometry = new THREE.SphereGeometry(0.025, 16, 16);
 			const dotMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 			const dot = new THREE.Mesh(dotGeometry, dotMaterial);
 			dot.position.copy(position);
