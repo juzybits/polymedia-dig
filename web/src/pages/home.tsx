@@ -92,7 +92,11 @@ const EarthCard = ({ hole }: { hole: typeof Hole.$inferType | undefined }) => {
 		<Card className="earth-card">
 			<Earth3D progress={progress} />
 			<div className="earth-stats">
-				<div>{(remaining / 1000).toFixed(4)}km to Japan</div>
+				<div>
+					{remaining > 0
+						? `${(remaining / 1000).toFixed(4)}km to Japan`
+						: "hole is complete"}
+				</div>
 				<div>
 					{hole.users.size} digger{hole?.users.size === "1" ? "" : "s"}
 				</div>
