@@ -42,34 +42,6 @@ export const PageHome = () => {
 		refetchInterval,
 	});
 
-	const userDigs = useQuery({
-		queryKey: ["userDigs", currAcct?.address],
-		queryFn: async () => {
-			if (!currAcct) {
-				throw new Error("Not connected");
-			}
-			const tx = new Transaction();
-			tx.add(
-				dig_module.userDigs({
-					arguments: {
-						hole: networkIds.holeObjId,
-						user: currAcct.address,
-					},
-				}),
-			);
-			const blockReturns = await devInspectAndGetReturnValues(suiClient, tx, [[bcs.U64]]);
-			return Number(blockReturns[0]![0]!);
-		},
-		enabled: !!currAcct,
-		refetchInterval,
-	});
-
-	useEffect(() => {
-		if (userDigs.data !== undefined) {
-			setLocalUserDigs(userDigs.data);
-		}
-	}, [userDigs.data]);
-
 	const dig = useMutation({
 		mutationFn: async () => {
 			if (!currAcct) {
@@ -106,6 +78,34 @@ export const PageHome = () => {
 			toast.error(errParser.errToStr(error, "Something went wrong"));
 		},
 	});
+
+	const userDigs = useQuery({
+		queryKey: ["userDigs", currAcct?.address],
+		queryFn: async () => {
+			if (!currAcct) {
+				throw new Error("Not connected");
+			}
+			const tx = new Transaction();
+			tx.add(
+				dig_module.userDigs({
+					arguments: {
+						hole: networkIds.holeObjId,
+						user: currAcct.address,
+					},
+				}),
+			);
+			const blockReturns = await devInspectAndGetReturnValues(suiClient, tx, [[bcs.U64]]);
+			return Number(blockReturns[0]![0]!);
+		},
+		enabled: !!currAcct,
+		refetchInterval,
+	});
+
+	useEffect(() => {
+		if (userDigs.data !== undefined) {
+			setLocalUserDigs(userDigs.data);
+		}
+	}, [userDigs.data]);
 
 	return (
 		<div className="page-regular">
