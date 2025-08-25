@@ -9,7 +9,7 @@ public struct Hole has key, store {
    users: Table<address, u64>,
 }
 
-// === constructors & transfers ===
+// === constructors ===
 
 public fun new(
    distance: u64,
@@ -41,7 +41,7 @@ public fun user_digs(hole: &Hole, user: address): u64 {
    }
 }
 
-public fun is_completed(hole: &Hole): bool {
+public fun is_complete(hole: &Hole): bool {
    hole.progress == hole.distance
 }
 
@@ -52,7 +52,7 @@ entry fun dig(
    _random: &Random,
    ctx: &TxContext,
 ) {
-   assert!(hole.progress < hole.distance, EAlreadyCompleted);
+   assert!(hole.progress < hole.distance, EAlreadyComplete);
    hole.progress = hole.progress + 1;
    let sender = ctx.sender();
    if (!hole.users.contains(sender)) {
@@ -65,8 +65,8 @@ entry fun dig(
 
 // === errors ===
 
-const EInvalidDistance: u64 = 0;
-const EAlreadyCompleted: u64 = 1;
+const EInvalidDistance: u64 = 1000;
+const EAlreadyComplete: u64 = 1001;
 
 // === imports ===
 

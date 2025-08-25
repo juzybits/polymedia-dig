@@ -16,8 +16,8 @@ export const networkIds = {
 		holeObjId: "",
 	},
 	localnet: {
-		digPkgId: "0x8af01768c0bcb2eb039fec60ef45bd81e049c82b488025c50e8601f16ab2bce0",
-		holeObjId: "0xfde5d9bf000b88792525204ce6b16d73232390fb06c03d1a282768824ac1b367",
+		digPkgId: "0xc6316bc103d69b085a1f953b3edf91cd413742d2b1c701519e0871e46ce071b2",
+		holeObjId: "0x9a2d023aaf9ef15e53a811c8c7f59030af32893938006b8dbcc22b84898daab5",
 	},
 }[network];
 
@@ -26,5 +26,8 @@ export const networkIds = {
 // === contract errors ===
 
 export const errorsByPackage: ErrorsByPackage = {
-	[networkIds.digPkgId]: {},
+	[networkIds.digPkgId]: {
+		1000: { symbol: "EInvalidDistance" },
+		1001: { symbol: "EAlreadyComplete", msg: "The hole is complete!" },
+	},
 };
