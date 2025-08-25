@@ -109,7 +109,7 @@ export const PageHome = () => {
 
 	return (
 		<div className="page-regular">
-			<div className="page-title">We Are Digging A Hole</div>
+			<div className="page-title">we're digging a hole</div>
 			<Card>
 				<div className="center-text">
 					<ConnectOr openConnectModal={openConnectModal} wrap={false}>
