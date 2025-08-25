@@ -54,10 +54,6 @@ export const PageHome = () => {
 		},
 	});
 
-	const progress = !hole.data
-		? null
-		: Number(hole.data.progress) / Number(hole.data.distance);
-
 	return (
 		<div className="page-regular">
 			<div className="page-title">We're digging a hole</div>
@@ -68,19 +64,14 @@ export const PageHome = () => {
 					</Btn>
 				</ConnectOr>
 			</Card>
-			<EarthCard hole={hole.data} progress={progress} />
+			<EarthCard hole={hole.data} />
 			<FaqCard />
 		</div>
 	);
 };
 
-const EarthCard = ({
-	hole,
-	progress,
-}: {
-	hole: typeof Hole.$inferType | null | undefined;
-	progress: number | null;
-}) => {
+const EarthCard = ({ hole }: { hole: typeof Hole.$inferType | undefined }) => {
+	const progress = !hole ? null : Number(hole.progress) / Number(hole.distance);
 	return (
 		<Card className="earth-card">
 			<Earth3D progress={progress} />
