@@ -47,6 +47,7 @@ export const PageHome = () => {
 			return signAndExecuteTx({ tx, sender: currAcct.address, dryRun });
 		},
 		onSuccess: (resp) => {
+			toast.dismiss();
 			toast.success(randomSuccessMessage());
 			console.log(`[dig] status:`, resp.effects?.status.status);
 			console.log(`[dig] digest:`, resp.digest);
@@ -54,6 +55,7 @@ export const PageHome = () => {
 		},
 		onError: (error) => {
 			console.warn(`[dig] error:`, error);
+			toast.dismiss();
 			toast.error(errParser.errToStr(error, "Something went wrong"));
 		},
 	});
