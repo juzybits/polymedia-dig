@@ -1,16 +1,10 @@
 import { useCurrentAccount, useSuiClient } from "@mysten/dapp-kit";
 import { Transaction } from "@mysten/sui/transactions";
 import { objResToBcs } from "@polymedia/suitcase-core";
-import {
-	Btn,
-	Card,
-	CardDetail,
-	ConnectOr,
-	LinkToExplorer,
-} from "@polymedia/suitcase-react";
+import { Btn, Card, CardDetail, ConnectOr } from "@polymedia/suitcase-react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { network, networkIds } from "@/app/config";
+import { networkIds } from "@/app/config";
 import { useAppContext } from "@/app/context";
 import { EarthVisualization } from "@/comp/earth";
 import * as dig_module from "@/gen/dig/dig";
@@ -85,8 +79,6 @@ export const PageHome = () => {
 
 // TODO move details into earth card
 const HoleDetails = ({ hole }: { hole: typeof Hole.$inferType | undefined }) => {
-	const { explorer } = useAppContext();
-
 	if (!hole) return null;
 
 	const distanceKm = Number(hole.distance) / 1000;
@@ -96,17 +88,6 @@ const HoleDetails = ({ hole }: { hole: typeof Hole.$inferType | undefined }) => 
 		<Card>
 			<div className="card-title">Hole Facts</div>
 			<div className="card-details">
-				<CardDetail
-					label="ID"
-					val={
-						<LinkToExplorer
-							addr={hole.id.id}
-							kind="object"
-							explorer={explorer}
-							network={network}
-						/>
-					}
-				/>
 				<CardDetail label="Distance" val={`${distanceKm.toFixed(0)}km`} />
 				<CardDetail label="Progress" val={`${progressPct.toFixed(2)}%`} />
 				<CardDetail label="Diggers" val={hole.users.size} />
