@@ -60,6 +60,10 @@ export const PageHome = () => {
 		},
 	});
 
+	const progress = !hole.data
+		? null
+		: Number(hole.data.progress) / Number(hole.data.distance);
+
 	return (
 		<div className="page-regular">
 			<div className="page-title">I'm digging a hole</div>
@@ -71,7 +75,7 @@ export const PageHome = () => {
 				</ConnectOr>
 			</Card>
 			<Card className="earth-card">
-				<EarthVisualization />
+				<EarthVisualization progress={progress} />
 			</Card>
 			<HoleDetails hole={hole.data} />
 		</div>

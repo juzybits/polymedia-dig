@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
-export const EarthVisualization = () => {
+export const EarthVisualization = ({ progress }: { progress: number | null }) => {
 	const mountRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
@@ -96,17 +96,13 @@ export const EarthVisualization = () => {
 			lng1: number,
 			lat2: number,
 			lng2: number,
-			digProgress: number, // 0 to 1
+			progress: number, // 0 to 1
 		) {
 			const startPoint = latLngToVector3(lat1, lng1);
 			const endPoint = latLngToVector3(lat2, lng2);
 
 			// calculate current dig endpoint
-			const currentEnd = new THREE.Vector3().lerpVectors(
-				startPoint,
-				endPoint,
-				digProgress,
-			);
+			const currentEnd = new THREE.Vector3().lerpVectors(startPoint, endPoint, progress);
 
 			// create a curve from start to current end
 			const curve = new THREE.LineCurve3(startPoint, currentEnd);
@@ -127,16 +123,17 @@ export const EarthVisualization = () => {
 		createCityMarker(latLngToVector3(argentina.lat, argentina.lng), "Argentina");
 		createCityMarker(latLngToVector3(japan.lat, japan.lng), "Japan");
 
-		// fixed 33% tunnel progress
-		const digProgress = 0.33;
-		const tunnelLine = createTunnelLine(
-			argentina.lat,
-			argentina.lng,
-			japan.lat,
-			japan.lng,
-			digProgress,
-		);
-		scene.add(tunnelLine);
+		// only show tunnel line if we have progress data
+		if (progress !== null) {
+			const tunnelLine = createTunnelLine(
+				argentina.lat,
+				argentina.lng,
+				japan.lat,
+				japan.lng,
+				progress,
+			);
+			scene.add(tunnelLine);
+		}
 
 		function animate() {
 			requestAnimationFrame(animate);
@@ -164,7 +161,7 @@ export const EarthVisualization = () => {
 				mountRef.current.removeChild(renderer.domElement);
 			}
 		};
-	}, []);
+	}, [progress]);
 
 	return (
 		<div
