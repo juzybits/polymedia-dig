@@ -97,7 +97,7 @@ export const Earth3D = ({ progress }: { progress: number | null }) => {
 			const context = canvas.getContext("2d");
 			if (!context) return;
 
-			const progressText = `${(progressValue * 100).toFixed(2)}%`;
+			const progressText = `${(progressValue * 100).toFixed(3)}%`;
 
 			canvas.width = 256;
 			canvas.height = 64;
