@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
-export const Earth = ({ progress }: { progress: number | null }) => {
+export const Earth3D = ({ progress }: { progress: number | null }) => {
 	const mountRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {

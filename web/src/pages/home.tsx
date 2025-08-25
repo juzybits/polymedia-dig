@@ -1,12 +1,12 @@
 import { useCurrentAccount, useSuiClient } from "@mysten/dapp-kit";
 import { Transaction } from "@mysten/sui/transactions";
 import { objResToBcs } from "@polymedia/suitcase-core";
-import { Btn, Card, CardDetail, ConnectOr } from "@polymedia/suitcase-react";
+import { Btn, Card, ConnectOr } from "@polymedia/suitcase-react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { networkIds } from "@/app/config";
 import { useAppContext } from "@/app/context";
-import { Earth } from "@/comp/earth";
+import { Earth3D } from "@/comp/earth3d";
 import * as dig_module from "@/gen/dig/dig";
 import { Hole } from "@/gen/dig/dig";
 
@@ -68,30 +68,25 @@ export const PageHome = () => {
 					</Btn>
 				</ConnectOr>
 			</Card>
-			<Card className="earth-card">
-				<Earth progress={progress} />
-			</Card>
-			<HoleDetails hole={hole.data} />
+			<EarthCard hole={hole.data} progress={progress} />
 			<FaqCard />
 		</div>
 	);
 };
 
-// TODO move details into earth card
-const HoleDetails = ({ hole }: { hole: typeof Hole.$inferType | undefined }) => {
-	if (!hole) return null;
-
-	const distanceKm = Number(hole.distance) / 1000;
-	const progressPct = (Number(hole.progress) / Number(hole.distance)) * 100;
-
+const EarthCard = ({ hole, progress }: { hole: typeof Hole.$inferType | null | undefined; progress: number | null }) => {
 	return (
-		<Card>
-			<div className="card-title">Hole Facts</div>
-			<div className="card-details">
-				<CardDetail label="Distance" val={`${distanceKm.toFixed(0)}km`} />
-				<CardDetail label="Progress" val={`${progressPct.toFixed(2)}%`} />
-				<CardDetail label="Diggers" val={hole.users.size} />
-			</div>
+		<Card className="earth-card">
+			<Earth3D progress={progress} />
+			{hole && (
+				<div className="earth-stats">
+					<div className="earth-stats-distance">
+						{(Number(hole.distance) / 1000).toFixed(0)}km to Japan
+					</div>
+					<div>{((Number(hole.progress) / Number(hole.distance)) * 100).toFixed(2)}% complete</div>
+					<div>{hole.users.size} diggers</div>
+				</div>
+			)}
 		</Card>
 	);
 };
