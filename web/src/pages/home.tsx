@@ -10,6 +10,7 @@ import {
 	isLocalhost,
 } from "@polymedia/suitcase-react";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { networkIds } from "@/app/config";
 import { useAppContext } from "@/app/context";
@@ -25,6 +26,8 @@ export const PageHome = () => {
 	const suiClient = useSuiClient();
 	const currAcct = useCurrentAccount();
 	const { errParser, signAndExecuteTx, openConnectModal } = useAppContext();
+
+	const [localUserDigs, setLocalUserDigs] = useState(0);
 
 	const hole = useQuery({
 		queryKey: ["hole", networkIds.holeObjId],
@@ -61,6 +64,12 @@ export const PageHome = () => {
 		refetchInterval,
 	});
 
+	useEffect(() => {
+		if (userDigs.data !== undefined) {
+			setLocalUserDigs(userDigs.data);
+		}
+	}, [userDigs.data]);
+
 	const dig = useMutation({
 		mutationFn: async () => {
 			if (!currAcct) {
@@ -77,6 +86,7 @@ export const PageHome = () => {
 			return signAndExecuteTx({ tx, sender: currAcct.address, dryRun });
 		},
 		onSuccess: (resp) => {
+			setLocalUserDigs(prev => prev + 1);
 			toast.dismiss();
 			toast.success(randomSuccessMessage());
 			console.log(`[dig] status:`, resp.effects?.status.status);
@@ -99,9 +109,9 @@ export const PageHome = () => {
 						<Btn onClick={() => dig.mutate()} disabled={dig.isPending} wrap={false}>
 							{dig.isPending ? "DIGGING..." : "DIG HOLE"}
 						</Btn>
-						{userDigs.data && userDigs.data > 0 && (
+						{localUserDigs > 0 && (
 							<div className="user-digs">
-								You dug {userDigs.data} time{userDigs.data === 1 ? "" : "s"}
+								You dug {localUserDigs} time{localUserDigs === 1 ? "" : "s"}
 							</div>
 						)}
 					</ConnectOr>
