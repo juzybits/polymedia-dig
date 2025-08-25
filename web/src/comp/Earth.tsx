@@ -2,15 +2,13 @@ import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
-type EarthVisualizationProps = {
-	width?: string | number;
-	height?: string | number;
-};
-
 export const EarthVisualization = ({
 	width = "100%",
 	height = "500px",
-}: EarthVisualizationProps) => {
+}: {
+	width?: string | number;
+	height?: string | number;
+}) => {
 	const mountRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {

@@ -1,4 +1,4 @@
-// import { EarthVisualization } from "@/comp/Earth";
+import { EarthVisualization } from "@/comp/Earth";
 
 import { useCurrentAccount, useSuiClient } from "@mysten/dapp-kit";
 import { Transaction } from "@mysten/sui/transactions";
@@ -58,8 +58,10 @@ export const PageHome = () => {
 					</Btn>
 				</ConnectOr>
 			</Card>
+			<Card>
+				<EarthVisualization />
+			</Card>
 			<HoleDetails />
-			{/* <EarthVisualization /> */}
 		</div>
 	);
 };
