@@ -41,6 +41,10 @@ public fun user_digs(hole: &Hole, user: address): u64 {
    }
 }
 
+public fun is_completed(hole: &Hole): bool {
+   hole.progress == hole.distance
+}
+
 // === user functions ===
 
 entry fun dig(
@@ -49,8 +53,8 @@ entry fun dig(
    ctx: &TxContext,
 ) {
    assert!(hole.progress < hole.distance, EAlreadyCompleted);
-   let sender = ctx.sender();
    hole.progress = hole.progress + 1;
+   let sender = ctx.sender();
    if (!hole.users.contains(sender)) {
       hole.users.add(sender, 1);
    } else {

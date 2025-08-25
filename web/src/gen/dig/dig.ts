@@ -150,6 +150,28 @@ export function userDigs(options: UserDigsOptions) {
         arguments: normalizeMoveArguments(options.arguments, argumentsTypes, parameterNames),
     });
 }
+export interface IsCompletedArguments {
+    hole: RawTransactionArgument<string>;
+}
+export interface IsCompletedOptions {
+    package?: string;
+    arguments: IsCompletedArguments | [
+        hole: RawTransactionArgument<string>
+    ];
+}
+export function isCompleted(options: IsCompletedOptions) {
+    const packageAddress = options.package ?? '@local-pkg/dig';
+    const argumentsTypes = [
+        `${packageAddress}::dig::Hole`
+    ] satisfies string[];
+    const parameterNames = ["hole"];
+    return (tx: Transaction) => tx.moveCall({
+        package: packageAddress,
+        module: 'dig',
+        function: 'is_completed',
+        arguments: normalizeMoveArguments(options.arguments, argumentsTypes, parameterNames),
+    });
+}
 export interface DigArguments {
     hole: RawTransactionArgument<string>;
 }
