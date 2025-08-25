@@ -4,8 +4,8 @@ export const network: NetworkName = "localnet" as const;
 
 export const networkIds = {
 	mainnet: {
-		digPkgId: "",
-		holeObjId: "",
+		digPkgId: "0xfc1922ae0f9021550924b4b353bb595ec3e78a72a4fe6da351dd9af376dd1614",
+		holeObjId: "0xedaa74161d02eed779518c9e11a31f0b29bcc29f5f510d6641ddaf64ec79d858",
 	},
 	testnet: {
 		digPkgId: "",
