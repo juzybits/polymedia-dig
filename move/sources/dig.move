@@ -66,14 +66,7 @@ const EAlreadyCompleted: u64 = 1;
 
 // === imports ===
 
-use std::{
-    u64::{max_value as max_u64},
-};
 use sui::{
-    balance::{Self, Balance},
-    clock::Clock,
-    coin::{Coin},
     random::{Random},
-    table_vec::{Self, TableVec},
     table::{Self, Table},
 };
