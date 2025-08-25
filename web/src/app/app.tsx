@@ -144,10 +144,15 @@ const App = (args: { rpc: string; setRpc: Setter<string> }) => {
 				}}
 			/>
 			<Toaster
-				position="bottom-right"
+				position="top-center"
 				containerStyle={{ marginTop: 23 }}
 				toastOptions={{
-					duration: 3000,
+					duration: 3500,
+					style: {
+						background: 'rgb(4 30 40)', // --color-subcard-bg
+						color: 'rgb(225 225 225)',   // --color-text
+						border: '1px solid rgb(138 145 158 / 15%)', // --border-gray
+					},
 				}}
 			/>
 		</AppContext.Provider>
