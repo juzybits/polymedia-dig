@@ -18,21 +18,8 @@ import * as dig_module from "@/gen/dig/dig";
 import { Hole } from "@/gen/dig/dig";
 
 export const PageHome = () => {
-	const suiClient = useSuiClient();
 	const currAcct = useCurrentAccount();
 	const { errParser, signAndExecuteTx, openConnectModal } = useAppContext();
-
-	const hole = useQuery({
-		queryKey: ["hole", networkIds.holeObjId],
-		queryFn: async () => {
-			return suiClient
-				.getObject({
-					id: networkIds.holeObjId,
-					options: { showType: true, showBcs: true },
-				})
-				.then((objRes) => Hole.fromBase64(objResToBcs(objRes)));
-		},
-	});
 
 	const dig = useMutation({
 		mutationFn: async () => {
@@ -71,19 +58,34 @@ export const PageHome = () => {
 					</Btn>
 				</ConnectOr>
 			</Card>
-			<HoleDetails hole={hole.data} />
+			<HoleDetails />
 			{/* <EarthVisualization /> */}
 		</div>
 	);
 };
 
-const HoleDetails = ({ hole }: { hole: typeof Hole.$inferType | undefined }) => {
+const HoleDetails = () => {
+	const suiClient = useSuiClient();
 	const { explorer } = useAppContext();
 
-	if (!hole) return null;
+	const hole = useQuery({
+		queryKey: ["hole", networkIds.holeObjId],
+		queryFn: async () => {
+			return suiClient
+				.getObject({
+					id: networkIds.holeObjId,
+					options: { showType: true, showBcs: true },
+				})
+				.then((objRes) => Hole.fromBase64(objResToBcs(objRes)));
+		},
+	});
 
-	const distanceKm = Number(hole.distance) / 1000;
-	const progressPct = (Number(hole.progress) / Number(hole.distance)) * 100;
+	if (!hole.data) return null;
+
+	const data = hole.data!;
+
+	const distanceKm = Number(data.distance) / 1000;
+	const progressPct = (Number(data.progress) / Number(data.distance)) * 100;
 
 	return (
 		<Card>
@@ -93,7 +95,7 @@ const HoleDetails = ({ hole }: { hole: typeof Hole.$inferType | undefined }) => 
 					label="ID"
 					val={
 						<LinkToExplorer
-							addr={hole.id.id}
+							addr={data.id.id}
 							kind="object"
 							explorer={explorer}
 							network={network}
@@ -102,7 +104,7 @@ const HoleDetails = ({ hole }: { hole: typeof Hole.$inferType | undefined }) => 
 				/>
 				<CardDetail label="Distance" val={`${distanceKm.toFixed(0)}km`} />
 				<CardDetail label="Progress" val={`${progressPct.toFixed(2)}%`} />
-				<CardDetail label="Diggers" val={hole.users.size} />
+				<CardDetail label="Diggers" val={data.users.size} />
 			</div>
 		</Card>
 	);
