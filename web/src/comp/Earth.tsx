@@ -38,6 +38,7 @@ export const EarthVisualization = () => {
 
 		camera.position.z = 1.8;
 		const controls = new OrbitControls(camera, renderer.domElement);
+		controls.enableZoom = false; // disable zoom to prevent scroll hijacking
 
 		// convert lat/lng to 3D coordinates
 		function latLngToVector3(

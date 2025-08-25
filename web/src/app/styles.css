@@ -1,1 +1,5 @@
 @import "@polymedia/suitcase-react/styles.css";
+
+.earth-card {
+   padding: 0;
+}

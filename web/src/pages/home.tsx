@@ -70,8 +70,7 @@ export const PageHome = () => {
 					</Btn>
 				</ConnectOr>
 			</Card>
-			<Card>
-				<div className="card-title">Hole Progress</div>
+			<Card className="earth-card">
 				<EarthVisualization />
 			</Card>
 			<HoleDetails hole={hole.data} />
