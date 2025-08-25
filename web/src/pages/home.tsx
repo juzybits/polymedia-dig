@@ -9,6 +9,7 @@ import { useAppContext } from "@/app/context";
 import { Earth3D } from "@/comp/earth3d";
 import * as dig_module from "@/gen/dig/dig";
 import { Hole } from "@/gen/dig/dig";
+import { randomSuccessMessage } from "@/lib/messages";
 
 const dryRun = true;
 
@@ -46,7 +47,7 @@ export const PageHome = () => {
 			return signAndExecuteTx({ tx, sender: currAcct.address, dryRun });
 		},
 		onSuccess: (resp) => {
-			toast.success("Success!");
+			toast.success(randomSuccessMessage());
 			console.log(`[dig] status:`, resp.effects?.status.status);
 			console.log(`[dig] digest:`, resp.digest);
 			console.log(`[dig] response:`, resp);
