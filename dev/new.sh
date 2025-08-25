@@ -20,6 +20,7 @@ fi
 
 pkgId="$1"
 distance=12651190
+distance=5 # TODO remove
 
 sui client ptb \
  --move-call $pkgId::dig::new $distance \

@@ -1,7 +1,7 @@
 import { useCurrentAccount, useSuiClient } from "@mysten/dapp-kit";
 import { Transaction } from "@mysten/sui/transactions";
 import { objResToBcs } from "@polymedia/suitcase-core";
-import { Btn, Card, ConnectOr } from "@polymedia/suitcase-react";
+import { Btn, Card, ConnectOr, isLocalhost } from "@polymedia/suitcase-react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { networkIds } from "@/app/config";
@@ -25,6 +25,7 @@ export const PageHome = () => {
 				})
 				.then((objRes) => Hole.fromBase64(objResToBcs(objRes)));
 		},
+		refetchInterval: isLocalhost() ? 5_000 : 10_000,
 	});
 
 	const dig = useMutation({
@@ -81,7 +82,9 @@ const EarthCard = ({ hole }: { hole: typeof Hole.$inferType | undefined }) => {
 					<div>
 						{((Number(hole.progress) / Number(hole.distance)) * 100).toFixed(4)}% complete
 					</div>
-					<div>{hole.users.size} digger{hole?.users.size === "1" ? "" : "s"}</div>
+					<div>
+						{hole.users.size} digger{hole?.users.size === "1" ? "" : "s"}
+					</div>
 				</div>
 			)}
 		</Card>
