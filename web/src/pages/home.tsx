@@ -12,7 +12,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { network, networkIds } from "@/app/config";
 import { useAppContext } from "@/app/context";
-import { EarthVisualization } from "@/comp/Earth";
+import { EarthVisualization } from "@/comp/earth";
 import * as dig_module from "@/gen/dig/dig";
 import { Hole } from "@/gen/dig/dig";
 
