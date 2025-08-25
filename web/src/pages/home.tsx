@@ -78,10 +78,12 @@ export const PageHome = () => {
 				<EarthVisualization progress={progress} />
 			</Card>
 			<HoleDetails hole={hole.data} />
+			<FaqCard />
 		</div>
 	);
 };
 
+// TODO move details into earth card
 const HoleDetails = ({ hole }: { hole: typeof Hole.$inferType | undefined }) => {
 	const { explorer } = useAppContext();
 
@@ -108,6 +110,40 @@ const HoleDetails = ({ hole }: { hole: typeof Hole.$inferType | undefined }) => 
 				<CardDetail label="Distance" val={`${distanceKm.toFixed(0)}km`} />
 				<CardDetail label="Progress" val={`${progressPct.toFixed(2)}%`} />
 				<CardDetail label="Diggers" val={hole.users.size} />
+			</div>
+		</Card>
+	);
+};
+
+const FaqCard = () => {
+	return (
+		<Card>
+			<div className="faqs">
+				<div className="card-title">F.A.Q.</div>
+				<div className="faq">
+					<p className="faq-question">What are you doing?</p>
+					<p className="faq-answer">Digging.</p>
+				</div>
+				<div className="faq">
+					<p className="faq-question">Why?</p>
+					<p className="faq-answer">To make a hole.</p>
+				</div>
+				<div className="faq">
+					<p className="faq-question">A hole for what?</p>
+					<p className="faq-answer">More digging.</p>
+				</div>
+				<div className="faq">
+					<p className="faq-question">Why is it called J-HOLE?</p>
+					<p className="faq-answer">Because it's a hole that goes to Japan.</p>
+				</div>
+				<div className="faq">
+					<p className="faq-question">So you wouldn't mind if I was to dig too?</p>
+					<p className="faq-answer">Go for it.</p>
+				</div>
+				<div className="faq">
+					<p className="faq-question">Maybe I will.</p>
+					<p className="faq-answer">What's stopping you?</p>
+				</div>
 			</div>
 		</Card>
 	);
