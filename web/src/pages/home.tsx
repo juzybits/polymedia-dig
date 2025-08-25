@@ -60,7 +60,7 @@ export const PageHome = () => {
 
 	return (
 		<div className="page-regular">
-			<div className="page-title">I'm digging a hole</div>
+			<div className="page-title">We're digging a hole</div>
 			<Card>
 				<ConnectOr openConnectModal={openConnectModal}>
 					<Btn onClick={() => dig.mutate()} disabled={dig.isPending}>
