@@ -18,7 +18,7 @@
 	"dependencies": {
 		"@mysten/dapp-kit": "^0.17.5",
 		"@mysten/sui": "^1.37.4",
-		"@polymedia/suitcase-core": "^0.0.65",
+		"@polymedia/suitcase-core": "^0.0.66",
 		"@polymedia/suitcase-react": "^0.0.65",
 		"@tanstack/react-form": "^1.19.2",
 		"@tanstack/react-query": "^5.85.5",
@@ -32,7 +32,7 @@
 		"@biomejs/biome": "^2.2.2",
 		"@mysten/codegen": "^0.4.3",
 		"@types/react": "^19.1.11",
-		"@types/react-dom": "^19.1.7",
+		"@types/react-dom": "^19.1.8",
 		"@types/three": "^0.179.0",
 		"@vitejs/plugin-react-swc": "^4.0.1",
 		"typescript": "^5.9.2",
