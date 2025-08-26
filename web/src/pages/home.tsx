@@ -7,7 +7,6 @@ import {
 	Card,
 	CardSpinner,
 	ConnectOr,
-	isLocalhost,
 	useInputUnsignedInt,
 } from "@polymedia/suitcase-react";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -21,8 +20,8 @@ import { Hole } from "@/gen/dig/dig";
 import { randomFinalMessage, randomSuccessMessage } from "@/lib/messages";
 
 const dryRun = false;
-const refetchInterval = isLocalhost() ? 5_000 : 10_000;
-const ongoing = false;
+const refetchInterval = 10_000;
+const progressCacheTTL = 60_000;
 const finalMessage = randomFinalMessage();
 
 export const PageHome = () => {
@@ -32,6 +31,7 @@ export const PageHome = () => {
 
 	const [localUserDigs, setLocalUserDigs] = useState(0);
 	const [autoDigEnabled, setAutoDigEnabled] = useState(false);
+	const [ongoing, setOngoing] = useState(true);
 
 	const inputGasPrice = useInputUnsignedInt({
 		label: "Gas price",
@@ -48,9 +48,15 @@ export const PageHome = () => {
 					id: networkIds.holeObjId,
 					options: { showType: true, showBcs: true },
 				})
-				.then((objRes) => Hole.fromBase64(objResToBcs(objRes)));
+				.then((objRes) => {
+					const hole = Hole.fromBase64(objResToBcs(objRes));
+					if (hole.progress === hole.distance) {
+						setOngoing(false);
+					}
+					return hole;
+				});
 		},
-		refetchInterval,
+		refetchInterval: ongoing ? refetchInterval : 0,
 	});
 
 	const dig = useMutation({
@@ -113,7 +119,7 @@ export const PageHome = () => {
 			return Number(blockReturns[0]![0]!);
 		},
 		enabled: !!currAcct,
-		refetchInterval,
+		refetchInterval: ongoing ? refetchInterval : 0,
 	});
 
 	useEffect(() => {
@@ -180,7 +186,6 @@ const EarthCard = ({ hole }: { hole: typeof Hole.$inferType | undefined }) => {
 	const remaining = distance - progress;
 	const diggers = Number(hole.users.size);
 
-	const progressCacheTTL = 60 * 1000; // 1 minute in milliseconds
 	const now = Date.now();
 	if (
 		!cachedProgressRef.current ||
