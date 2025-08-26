@@ -5,6 +5,20 @@
 	padding-top: 1em;
 }
 
+.auto-dig-controls {
+	padding-top: 1em;
+	display: flex;
+	justify-content: center;
+	.auto-dig-checkbox {
+		display: flex;
+		gap: 0.5em;
+		font-size: 0.9em;
+		label {
+			font-size: 0.9em;
+		}
+	}
+}
+
 .earth-card {
 	padding: 0;
 	position: relative;

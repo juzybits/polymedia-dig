@@ -28,6 +28,7 @@ export const PageHome = () => {
 	const { errParser, signAndExecuteTx, openConnectModal } = useAppContext();
 
 	const [localUserDigs, setLocalUserDigs] = useState(0);
+	const [autoDigEnabled, setAutoDigEnabled] = useState(false);
 
 	const hole = useQuery({
 		queryKey: ["hole", networkIds.holeObjId],
@@ -68,11 +69,17 @@ export const PageHome = () => {
 			console.log(`[dig] status:`, resp.effects?.status.status);
 			console.log(`[dig] digest:`, resp.digest);
 			console.log(`[dig] response:`, resp);
+
+			// continue auto-dig if enabled
+			if (autoDigEnabled) {
+				dig.mutate();
+			}
 		},
 		onError: (error) => {
 			console.warn(`[dig] error:`, error);
 			toast.dismiss();
 			toast.error(errParser.errToStr(error, "Something went wrong"));
+			// auto-dig will stop automatically on error since onSuccess won't be called
 		},
 	});
 
@@ -113,6 +120,17 @@ export const PageHome = () => {
 						<Btn onClick={() => dig.mutate()} disabled={dig.isPending} wrap={false}>
 							{dig.isPending ? "DIGGING..." : "DIG HOLE"}
 						</Btn>
+						<div className="auto-dig-controls">
+							<label className="auto-dig-checkbox">
+								<input
+									type="checkbox"
+									checked={autoDigEnabled}
+									onChange={(e) => setAutoDigEnabled(e.target.checked)}
+									disabled={!currAcct}
+								/>
+								Auto-dig
+							</label>
+						</div>
 						{localUserDigs > 0 && (
 							<div className="user-digs">
 								You dug {localUserDigs} time{localUserDigs === 1 ? "" : "s"}
