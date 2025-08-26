@@ -156,7 +156,7 @@ const EarthCard = ({ hole }: { hole: typeof Hole.$inferType | undefined }) => {
 	const remaining = distance - progress;
 	const diggers = Number(hole.users.size);
 
-	const progressCacheTTL = 6000000 * 1000; // 1 minute in milliseconds
+	const progressCacheTTL = 60 * 1000; // 1 minute in milliseconds
 	const now = Date.now();
 	if (
 		!cachedProgressRef.current ||
