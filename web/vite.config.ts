@@ -5,7 +5,7 @@ import { defineConfig } from "vite";
 export default defineConfig({
 	plugins: [react()],
 	build: {
-		chunkSizeWarningLimit: 1000,
+		chunkSizeWarningLimit: 1500,
 	},
 	preview: {
 		port: 3000,
