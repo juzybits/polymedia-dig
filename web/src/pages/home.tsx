@@ -18,10 +18,12 @@ import { useAppContext } from "@/app/context";
 import { Earth3D } from "@/comp/earth3d";
 import * as dig_module from "@/gen/dig/dig";
 import { Hole } from "@/gen/dig/dig";
-import { randomSuccessMessage } from "@/lib/messages";
+import { randomFinalMessage, randomSuccessMessage } from "@/lib/messages";
 
 const dryRun = false;
 const refetchInterval = isLocalhost() ? 5_000 : 10_000;
+const ongoing = false;
+const finalMessage = randomFinalMessage();
 
 export const PageHome = () => {
 	const suiClient = useSuiClient();
@@ -122,25 +124,37 @@ export const PageHome = () => {
 
 	return (
 		<div className="page-regular">
-			<div className="page-title">we're digging a hole</div>
+			<div className="page-title">
+				{ongoing ? "we're digging a hole" : "we dug a hole"}
+			</div>
 			<Card>
 				<div className="center-text">
-					<ConnectOr openConnectModal={openConnectModal} btnMsg="START" wrap={false}>
-						<Btn onClick={() => dig.mutate()} disabled={dig.isPending} wrap={false}>
-							{dig.isPending ? "DIGGING..." : "DIG HOLE"}
-						</Btn>
-						<div className="auto-dig-controls">
-							<label className="auto-dig-checkbox">
-								<input
-									type="checkbox"
-									checked={autoDigEnabled}
-									onChange={(e) => setAutoDigEnabled(e.target.checked)}
-									disabled={!currAcct}
-								/>
-								Auto-dig
-							</label>
-						</div>
-						<div className="gas-price-input">{inputGasPrice.input}</div>
+					<ConnectOr
+						openConnectModal={openConnectModal}
+						btnMsg={ongoing ? "START" : "CONNECT"}
+						wrap={false}
+					>
+						{ongoing ? (
+							<>
+								<Btn onClick={() => dig.mutate()} disabled={dig.isPending} wrap={false}>
+									{dig.isPending ? "DIGGING..." : "DIG HOLE"}
+								</Btn>
+								<div className="auto-dig-controls">
+									<label className="auto-dig-checkbox">
+										<input
+											type="checkbox"
+											checked={autoDigEnabled}
+											onChange={(e) => setAutoDigEnabled(e.target.checked)}
+											disabled={!currAcct}
+										/>
+										Auto-dig
+									</label>
+								</div>
+								<div className="gas-price-input">{inputGasPrice.input}</div>
+							</>
+						) : (
+							<div>{finalMessage}</div>
+						)}
 						{localUserDigs > 0 && (
 							<div className="user-digs">
 								You dug {localUserDigs} time{localUserDigs === 1 ? "" : "s"}

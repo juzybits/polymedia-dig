@@ -55,11 +55,36 @@ const TAGS = [
 ];
 
 function randomItem(bases: string[]) {
-	return bases[(Math.random() * bases.length) | 0];
+	return bases[Math.floor(Math.random() * bases.length)];
 }
 
 export function randomSuccessMessage() {
 	const base = randomItem(BASES);
 	const tag = Math.random() < 0.5 ? ` ${randomItem(TAGS)}` : "";
 	return `The hole ${base}.${tag}`;
+}
+
+const FINAL_MESSAGES = [
+	"acknowledges your effort",
+	"acknowledges your futile gesture",
+	"admires your dedication to pointless tasks",
+	"appreciates your contribution",
+	"appreciates your scooping",
+	"considers this adequate",
+	"felt that",
+	"is pleased with your work",
+	"is satisfied",
+	"notes your commitment to the void",
+	"notes your shovel discipline",
+	"questions your life choices",
+	"rates this disturbance as satisfactory",
+	"regards your labor as correct",
+	"remembers this",
+	"respects your commitment to poor decisions",
+	"thanks you in silence",
+	"wonders if you have other hobbies",
+];
+
+export function randomFinalMessage() {
+	return `The hole ${randomItem(FINAL_MESSAGES)}.`;
 }
