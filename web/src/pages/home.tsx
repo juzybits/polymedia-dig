@@ -136,8 +136,9 @@ const EarthCard = ({ hole }: { hole: typeof Hole.$inferType | undefined }) => {
 	const distance = Number(hole.distance);
 	const progressPct = progress / distance;
 	const remaining = distance - progress;
+	const diggers = Number(hole.users.size);
 
-	const progressCacheTTL = 60 * 1000; // 1 minute in milliseconds
+	const progressCacheTTL = 6000000 * 1000; // 1 minute in milliseconds
 	const now = Date.now();
 	if (
 		!cachedProgressRef.current ||
@@ -159,7 +160,7 @@ const EarthCard = ({ hole }: { hole: typeof Hole.$inferType | undefined }) => {
 				</div>
 				<div>{progress.toLocaleString()}m dug so far</div>
 				<div>
-					{hole.users.size} digger{hole?.users.size === "1" ? "" : "s"}
+					{diggers.toLocaleString()} digger{diggers === 1 ? "" : "s"}
 				</div>
 			</div>
 		</Card>
