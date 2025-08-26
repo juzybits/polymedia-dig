@@ -31,7 +31,7 @@ export const PageHome = () => {
 
 	const [localUserDigs, setLocalUserDigs] = useState(0);
 	const [autoDigEnabled, setAutoDigEnabled] = useState(false);
-	const [ongoing, setOngoing] = useState(true);
+	const [ongoing, setOngoing] = useState(false);
 
 	const inputGasPrice = useInputUnsignedInt({
 		label: "Gas price",
