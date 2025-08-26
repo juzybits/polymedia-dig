@@ -19,6 +19,23 @@
 	}
 }
 
+.gas-price-input .poly-input {
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	gap: 0.5em;
+	padding-top: 1em;
+	* {
+		font-size: 0.9em;
+	}
+	.poly-input-label {
+		font-size: 0.9em;
+	}
+	.input {
+		width: 60px;
+	}
+}
+
 .earth-card {
 	padding: 0;
 	position: relative;

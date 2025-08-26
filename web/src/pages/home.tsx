@@ -8,6 +8,7 @@ import {
 	CardSpinner,
 	ConnectOr,
 	isLocalhost,
+	useInputUnsignedInt,
 } from "@polymedia/suitcase-react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
@@ -30,6 +31,13 @@ export const PageHome = () => {
 	const [localUserDigs, setLocalUserDigs] = useState(0);
 	const [autoDigEnabled, setAutoDigEnabled] = useState(false);
 
+	const inputGasPrice = useInputUnsignedInt({
+		label: "Gas price",
+		html: {
+			value: "501",
+		},
+	});
+
 	const hole = useQuery({
 		queryKey: ["hole", networkIds.holeObjId],
 		queryFn: async () => {
@@ -49,6 +57,7 @@ export const PageHome = () => {
 				throw new Error("Not connected");
 			}
 			const tx = new Transaction();
+			tx.setGasPrice(inputGasPrice.val ?? 501);
 			// tx.add(
 			// 	dig_module.dig({
 			// 		arguments: {
@@ -131,6 +140,7 @@ export const PageHome = () => {
 								Auto-dig
 							</label>
 						</div>
+						<div className="gas-price-input">{inputGasPrice.input}</div>
 						{localUserDigs > 0 && (
 							<div className="user-digs">
 								You dug {localUserDigs} time{localUserDigs === 1 ? "" : "s"}
