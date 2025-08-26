@@ -202,10 +202,10 @@ const EarthCard = ({ hole }: { hole: typeof Hole.$inferType | undefined }) => {
 		<Card className="earth-card">
 			<Earth3D progress={cachedProgressRef.current.value} />
 			<div className="earth-stats">
+				{remaining > 0 && <div>{remaining.toLocaleString()}m to Japan</div>}
 				<div>
-					{remaining > 0 ? `${remaining.toLocaleString()}m to Japan` : "hole is complete"}
+					{progress.toLocaleString()}m dug{remaining > 0 ? " so far" : ""}
 				</div>
-				<div>{progress.toLocaleString()}m dug so far</div>
 				<div>
 					{diggers.toLocaleString()} digger{diggers === 1 ? "" : "s"}
 				</div>
