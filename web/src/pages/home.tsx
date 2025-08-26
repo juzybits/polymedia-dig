@@ -10,7 +10,7 @@ import {
 	isLocalhost,
 } from "@polymedia/suitcase-react";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { networkIds } from "@/app/config";
 import { useAppContext } from "@/app/context";
@@ -57,15 +57,12 @@ export const PageHome = () => {
 			// );
 			tx.moveCall({
 				target: `${networkIds.digPkgId}::dig::dig`,
-				arguments: [
-					tx.object(networkIds.holeObjId),
-					tx.object("0x8"),
-				],
+				arguments: [tx.object(networkIds.holeObjId), tx.object("0x8")],
 			});
 			return signAndExecuteTx({ tx, sender: currAcct.address, dryRun });
 		},
 		onSuccess: (resp) => {
-			setLocalUserDigs(prev => prev + 1);
+			setLocalUserDigs((prev) => prev + 1);
 			toast.dismiss();
 			toast.success(randomSuccessMessage());
 			console.log(`[dig] status:`, resp.effects?.status.status);
@@ -131,21 +128,36 @@ export const PageHome = () => {
 };
 
 const EarthCard = ({ hole }: { hole: typeof Hole.$inferType | undefined }) => {
+	const cachedProgressRef = useRef<{ value: number; timestamp: number } | null>(null);
+
 	if (!hole) return <CardSpinner />;
+
 	const progress = Number(hole.progress);
 	const distance = Number(hole.distance);
 	const progressPct = progress / distance;
 	const remaining = distance - progress;
+
+	const progressCacheTTL = 60 * 1000; // 1 minute in milliseconds
+	const now = Date.now();
+	if (
+		!cachedProgressRef.current ||
+		now - cachedProgressRef.current.timestamp >= progressCacheTTL
+	) {
+		// use and cache the new value
+		cachedProgressRef.current = {
+			value: progressPct,
+			timestamp: now,
+		};
+	}
+
 	return (
 		<Card className="earth-card">
-			<Earth3D progress={progressPct} />
+			<Earth3D progress={cachedProgressRef.current.value} />
 			<div className="earth-stats">
 				<div>
 					{remaining > 0 ? `${remaining.toLocaleString()}m to Japan` : "hole is complete"}
 				</div>
-				<div>
-					{progress.toLocaleString()}m dug so far
-				</div>
+				<div>{progress.toLocaleString()}m dug so far</div>
 				<div>
 					{hole.users.size} digger{hole?.users.size === "1" ? "" : "s"}
 				</div>
