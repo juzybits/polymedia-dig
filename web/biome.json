@@ -13,16 +13,16 @@
 	},
 	"linter": {
 		"rules": {
-			"style": {
-				"noNonNullAssertion": "off",
-				"noDescendingSpecificity": "off"
-			},
 			"a11y": {
 				"noStaticElementInteractions": "off",
 				"useKeyWithClickEvents": "off"
 			},
 			"correctness": {
 				"noChildrenProp": "off"
+			},
+			"style": {
+				"noNonNullAssertion": "off",
+				"noDescendingSpecificity": "off"
 			}
 		}
 	},
