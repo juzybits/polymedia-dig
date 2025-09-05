@@ -16,28 +16,28 @@
 		"typecheck": "tsc -b --noEmit"
 	},
 	"dependencies": {
-		"@mysten/dapp-kit": "^0.17.5",
-		"@mysten/sui": "^1.37.4",
-		"@polymedia/suitcase-core": "^0.0.66",
-		"@polymedia/suitcase-react": "^0.0.65",
-		"@tanstack/react-form": "^1.19.2",
-		"@tanstack/react-query": "^5.85.5",
+		"@mysten/dapp-kit": "^0.17.7",
+		"@mysten/sui": "^1.37.6",
+		"@polymedia/suitcase-core": "^0.0.67",
+		"@polymedia/suitcase-react": "^0.0.67",
+		"@tanstack/react-form": "^1.19.3",
+		"@tanstack/react-query": "^5.87.1",
 		"react": "^19.1.1",
 		"react-dom": "^19.1.1",
 		"react-hot-toast": "^2.6.0",
 		"react-router-dom": "^7.8.2",
-		"three": "^0.179.1"
+		"three": "^0.180.0"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^2.2.2",
-		"@mysten/codegen": "^0.4.3",
-		"@types/react": "^19.1.11",
-		"@types/react-dom": "^19.1.8",
-		"@types/three": "^0.179.0",
+		"@biomejs/biome": "^2.2.3",
+		"@mysten/codegen": "^0.4.5",
+		"@types/react": "^19.1.12",
+		"@types/react-dom": "^19.1.9",
+		"@types/three": "^0.180.0",
 		"@vitejs/plugin-react-swc": "^4.0.1",
 		"typescript": "^5.9.2",
-		"vite": "^7.1.3",
-		"wrangler": "^4.32.0"
+		"vite": "^7.1.4",
+		"wrangler": "^4.34.0"
 	},
 	"type": "module",
 	"sideEffects": false
