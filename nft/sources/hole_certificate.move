@@ -1,11 +1,59 @@
 module hole_certificate::hole_certificate;
 
+// === imports ===
+
+use std::{
+    string::{String},
+};
+use sui::{
+    random::{Random, RandomGenerator},
+    table::{Self, Table},
+};
+use dig::{
+   dig::{Hole},
+};
+
+// === errors ===
+
+const EDidNotDig: u64 = 1000;
+const EAlreadyMinted: u64 = 1001;
+
+// === constants ===
+
+const TITLES: vector<vector<u8>> = vector[
+   b"Chief Dirt Officer",
+   b"Digging Virtuoso",
+   b"Earth Annoyance Specialist",
+   b"Hole Lover",
+   b"Master of Mud",
+   b"PhD in Pointless Excavation",
+   b"Professional Hole Contributor",
+   b"Subterranean Scholar",
+   b"Sultan of Soil",
+   b"Tunnel Visionary",
+];
+
+const REMARKS: vector<vector<u8>> = vector[
+   b"The hole acknowledges your futile gesture",
+   b"The hole appreciates your contribution",
+   b"The hole notes your commitment to the void",
+   b"The hole notes your shovel discipline",
+   b"The hole questions your life choices",
+   b"The hole rates your disturbance as satisfactory",
+   b"The hole regards your labor as correct",
+   b"The hole respects your commitment to poor decisions",
+   b"The hole respects your dedication to pointless tasks",
+   b"The hole wonders if you have other hobbies",
+];
+
 // === structs ===
 
 public struct HoleCertificate has key, store {
    id: UID,
    digger: address,
    meters: u64,
+   title: String,
+   remark: String,
 }
 
 public struct CertificateRegistry has key {
@@ -28,7 +76,10 @@ fun init(_otw: HOLE_CERTIFICATE, ctx: &mut TxContext) {
 // === getters ===
 
 public fun id(c: &HoleCertificate): ID { c.id.to_inner() }
+public fun digger(c: &HoleCertificate): address { c.digger }
 public fun meters(c: &HoleCertificate): u64 { c.meters }
+public fun title(c: &HoleCertificate): &String { &c.title }
+public fun remark(c: &HoleCertificate): &String { &c.remark }
 
 public fun certs(r: &CertificateRegistry): &Table<address, address> { &r.certs }
 
@@ -42,36 +93,36 @@ entry fun mint(
    r: &Random,
    ctx: &mut TxContext,
 ) {
-   let sender = ctx.sender();
+   let digger = ctx.sender();
 
-   let user_digs = hole.user_digs(sender);
-   assert!(user_digs > 0, EDidNotDig);
+   let meters = hole.user_digs(digger);
+   assert!(meters > 0, EDidNotDig);
 
-   let already_minted = registry.certs.contains(sender);
+   let already_minted = registry.certs.contains(digger);
    assert!(!already_minted, EAlreadyMinted);
+
+   let mut rg = r.new_generator(ctx);
 
    let cert = HoleCertificate {
       id: object::new(ctx),
-      digger: sender,
-      meters: user_digs,
+      digger,
+      meters,
+      title: random_string(TITLES, &mut rg),
+      remark: random_string(REMARKS, &mut rg),
    };
 
-   registry.certs.add(sender, cert.id.to_address());
+   registry.certs.add(digger, cert.id.to_address());
 
-   transfer::transfer(cert, ctx.sender());
+   transfer::transfer(cert, digger);
 }
 
-// === errors ===
+// === private functions ===
 
-const EDidNotDig: u64 = 1000;
-const EAlreadyMinted: u64 = 1001;
-
-// === imports ===
-
-use sui::{
-    random::{Random},
-    table::{Self, Table},
-};
-use dig::{
-   dig::{Hole},
-};
+fun random_string(
+   values: vector<vector<u8>>,
+   rg: &mut RandomGenerator,
+): String {
+   let len = values.length();
+   let idx = rg.generate_u64_in_range(0, len - 1);
+   values[idx].to_string()
+}
