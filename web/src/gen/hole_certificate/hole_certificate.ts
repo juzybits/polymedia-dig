@@ -15,8 +15,6 @@ export const HoleCertificate = new MoveStruct({ name: `${$moduleName}::HoleCerti
         meters: bcs.u64(),
         title: bcs.string(),
         remark: bcs.string(),
-        crisis: bcs.u8(),
-        doubts: bcs.u8(),
         moles: bcs.u8(),
         productivity: bcs.u8(),
         regret: bcs.u8(),
@@ -137,50 +135,6 @@ export function remark(options: RemarkOptions) {
         package: packageAddress,
         module: 'hole_certificate',
         function: 'remark',
-        arguments: normalizeMoveArguments(options.arguments, argumentsTypes, parameterNames),
-    });
-}
-export interface CrisisArguments {
-    c: RawTransactionArgument<string>;
-}
-export interface CrisisOptions {
-    package?: string;
-    arguments: CrisisArguments | [
-        c: RawTransactionArgument<string>
-    ];
-}
-export function crisis(options: CrisisOptions) {
-    const packageAddress = options.package ?? '@local-pkg/hole_certificate';
-    const argumentsTypes = [
-        `${packageAddress}::hole_certificate::HoleCertificate`
-    ] satisfies string[];
-    const parameterNames = ["c"];
-    return (tx: Transaction) => tx.moveCall({
-        package: packageAddress,
-        module: 'hole_certificate',
-        function: 'crisis',
-        arguments: normalizeMoveArguments(options.arguments, argumentsTypes, parameterNames),
-    });
-}
-export interface DoubtsArguments {
-    c: RawTransactionArgument<string>;
-}
-export interface DoubtsOptions {
-    package?: string;
-    arguments: DoubtsArguments | [
-        c: RawTransactionArgument<string>
-    ];
-}
-export function doubts(options: DoubtsOptions) {
-    const packageAddress = options.package ?? '@local-pkg/hole_certificate';
-    const argumentsTypes = [
-        `${packageAddress}::hole_certificate::HoleCertificate`
-    ] satisfies string[];
-    const parameterNames = ["c"];
-    return (tx: Transaction) => tx.moveCall({
-        package: packageAddress,
-        module: 'hole_certificate',
-        function: 'doubts',
         arguments: normalizeMoveArguments(options.arguments, argumentsTypes, parameterNames),
     });
 }

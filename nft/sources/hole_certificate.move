@@ -37,8 +37,8 @@ const TITLES: vector<vector<u8>> = vector[
 ];
 
 const REMARKS: vector<vector<u8>> = vector[
-   b"The hole acknowledges your futile gesture",
-   b"The hole appreciates your contribution",
+   b"The hole acknowledges your contribution",
+   b"The hole appreciates your futile gesture",
    b"The hole notes your commitment to the void",
    b"The hole notes your shovel discipline",
    b"The hole questions your life choices",
@@ -60,8 +60,6 @@ public struct HoleCertificate has key, store {
    title: String,
    remark: String,
 
-   crisis: u8,
-   doubts: u8,
    moles: u8,
    productivity: u8,
    regret: u8,
@@ -96,8 +94,6 @@ public fun meters(c: &HoleCertificate): u64 { c.meters }
 public fun title(c: &HoleCertificate): &String { &c.title }
 public fun remark(c: &HoleCertificate): &String { &c.remark }
 
-public fun crisis(c: &HoleCertificate): u8 { c.crisis }
-public fun doubts(c: &HoleCertificate): u8 { c.doubts }
 public fun moles(c: &HoleCertificate): u8 { c.moles }
 public fun productivity(c: &HoleCertificate): u8 { c.productivity }
 public fun regret(c: &HoleCertificate): u8 { c.regret }
@@ -137,8 +133,6 @@ entry fun mint(
       title: random_string(TITLES, &mut rg),
       remark: random_string(REMARKS, &mut rg),
 
-      crisis: random_number(&mut rg),
-      doubts: random_number(&mut rg),
       moles: random_number(&mut rg),
       productivity: random_number(&mut rg),
       regret: random_number(&mut rg),
