@@ -67,12 +67,15 @@ registryId=$(get_object_id "$json" "$nftPkgId::hole_certificate::CertificateRegi
 ### create the hole ===
 
 distance=12651190
-sui client ptb \
- --json \
+ptb_json=$(sui client ptb \
  --move-call $digPkgId::dig::new $distance \
  --assign holeId \
- --move-call "0x2::transfer::public_share_object<$digPkgId::dig::Hole>" holeId
+ --move-call "0x2::transfer::public_share_object<$digPkgId::dig::Hole>" holeId \
+ --json)
+
+holeObjId=$(get_object_id "$ptb_json" "$digPkgId::dig::Hole")
 
 echo "digPkgId: $digPkgId"
 echo "nftPkgId: $nftPkgId"
 echo "registryId: $registryId"
+echo "holeObjId: $holeObjId"
