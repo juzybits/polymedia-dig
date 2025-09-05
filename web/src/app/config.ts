@@ -6,21 +6,25 @@ export const networkIds = {
 	mainnet: {
 		digPkgId: "0xfc1922ae0f9021550924b4b353bb595ec3e78a72a4fe6da351dd9af376dd1614",
 		holeObjId: "0xedaa74161d02eed779518c9e11a31f0b29bcc29f5f510d6641ddaf64ec79d858",
+		nftPkgId: "",
 		registryId: "",
 	},
 	testnet: {
 		digPkgId: "0xdd1e682de1cb85bad554e4db5bd172e8079478e0de7b0b6e8e244e63d06493d9",
 		holeObjId: "0xf0dc3fe90af9168b5bf8f59245f210bb2a0a44879c5716e34d17cae56562f08e",
+		nftPkgId: "",
 		registryId: "",
 	},
 	devnet: {
-		digPkgId: "0xb4fa3e6c94aa99ff2cf32e4556ff958ecf4875e2614ac8e8300720bec370ca8d",
-		holeObjId: "0x037bf5019f63c112d66e52f4c980fd61237ac3629d0cf4fdb3ac4374a9bcabce",
-		registryId: "",
+		digPkgId: "0xb0fc5cb9acb730515b6efb9c1e12797a625f167090aaef9b7469b70fbd2bd07a",
+		holeObjId: "0x66b77216ee276bd164287215847571f8354eaff41ebf41458078fc4e662171c6",
+		nftPkgId: "0xb0fc5cb9acb730515b6efb9c1e12797a625f167090aaef9b7469b70fbd2bd07a",
+		registryId: "0x2c75642bd414d7f301c7f37c0629e429ce73edc1cba063fac7c11e63a258c7ea",
 	},
 	localnet: {
-		digPkgId: "0xc6316bc103d69b085a1f953b3edf91cd413742d2b1c701519e0871e46ce071b2",
-		holeObjId: "0x86cb83b09e39ceee48f9ee2304bfdaa71b5cf223ef0e583f40c8e8008a4cac92",
+		digPkgId: "",
+		holeObjId: "",
+		nftPkgId: "",
 		registryId: "",
 	},
 }[network];
