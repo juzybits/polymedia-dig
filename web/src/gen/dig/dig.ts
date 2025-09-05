@@ -150,16 +150,16 @@ export function userDigs(options: UserDigsOptions) {
         arguments: normalizeMoveArguments(options.arguments, argumentsTypes, parameterNames),
     });
 }
-export interface IsCompletedArguments {
+export interface IsCompleteArguments {
     hole: RawTransactionArgument<string>;
 }
-export interface IsCompletedOptions {
+export interface IsCompleteOptions {
     package?: string;
-    arguments: IsCompletedArguments | [
+    arguments: IsCompleteArguments | [
         hole: RawTransactionArgument<string>
     ];
 }
-export function isCompleted(options: IsCompletedOptions) {
+export function isComplete(options: IsCompleteOptions) {
     const packageAddress = options.package ?? '@local-pkg/dig';
     const argumentsTypes = [
         `${packageAddress}::dig::Hole`
@@ -168,7 +168,7 @@ export function isCompleted(options: IsCompletedOptions) {
     return (tx: Transaction) => tx.moveCall({
         package: packageAddress,
         module: 'dig',
-        function: 'is_completed',
+        function: 'is_complete',
         arguments: normalizeMoveArguments(options.arguments, argumentsTypes, parameterNames),
     });
 }
@@ -187,7 +187,7 @@ export function dig(options: DigOptions) {
         `${packageAddress}::dig::Hole`,
         '0x0000000000000000000000000000000000000000000000000000000000000002::random::Random'
     ] satisfies string[];
-    const parameterNames = ["hole", "Random"];
+    const parameterNames = ["hole"];
     return (tx: Transaction) => tx.moveCall({
         package: packageAddress,
         module: 'dig',

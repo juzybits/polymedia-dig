@@ -7,6 +7,10 @@ const config: SuiCodegenConfig = {
 			package: "@local-pkg/dig",
 			path: "../move",
 		},
+		{
+			package: "@local-pkg/hole_certificate",
+			path: "../nft",
+		},
 	],
 };
 
