@@ -50,10 +50,20 @@ const REMARKS: vector<vector<u8>> = vector[
 
 public struct HoleCertificate has key, store {
    id: UID,
+
    digger: address,
    meters: u64,
+
    title: String,
    remark: String,
+
+   crisis: u8,
+   doubts: u8,
+   moles: u8,
+   productivity: u8,
+   regret: u8,
+   shovels: u8,
+   therapy: u8,
 }
 
 public struct CertificateRegistry has key {
@@ -76,10 +86,20 @@ fun init(_otw: HOLE_CERTIFICATE, ctx: &mut TxContext) {
 // === getters ===
 
 public fun id(c: &HoleCertificate): ID { c.id.to_inner() }
+
 public fun digger(c: &HoleCertificate): address { c.digger }
 public fun meters(c: &HoleCertificate): u64 { c.meters }
+
 public fun title(c: &HoleCertificate): &String { &c.title }
 public fun remark(c: &HoleCertificate): &String { &c.remark }
+
+public fun crisis(c: &HoleCertificate): u8 { c.crisis }
+public fun doubts(c: &HoleCertificate): u8 { c.doubts }
+public fun moles(c: &HoleCertificate): u8 { c.moles }
+public fun productivity(c: &HoleCertificate): u8 { c.productivity }
+public fun regret(c: &HoleCertificate): u8 { c.regret }
+public fun shovels(c: &HoleCertificate): u8 { c.shovels }
+public fun therapy(c: &HoleCertificate): u8 { c.therapy }
 
 public fun certs(r: &CertificateRegistry): &Table<address, address> { &r.certs }
 
@@ -88,7 +108,7 @@ public fun certs(r: &CertificateRegistry): &Table<address, address> { &r.certs }
 // === user functions ===
 
 entry fun mint(
-   hole: &Hole,
+   hole: &Hole, // TODO check ID
    registry: &mut CertificateRegistry,
    r: &Random,
    ctx: &mut TxContext,
@@ -105,10 +125,20 @@ entry fun mint(
 
    let cert = HoleCertificate {
       id: object::new(ctx),
+
       digger,
       meters,
+
       title: random_string(TITLES, &mut rg),
       remark: random_string(REMARKS, &mut rg),
+
+      crisis: random_number(&mut rg),
+      doubts: random_number(&mut rg),
+      moles: random_number(&mut rg),
+      productivity: random_number(&mut rg),
+      regret: random_number(&mut rg),
+      shovels: random_number(&mut rg),
+      therapy: random_number(&mut rg),
    };
 
    registry.certs.add(digger, cert.id.to_address());
@@ -125,4 +155,10 @@ fun random_string(
    let len = values.length();
    let idx = rg.generate_u64_in_range(0, len - 1);
    values[idx].to_string()
+}
+
+fun random_number(
+   rg: &mut RandomGenerator,
+): u8 {
+   rg.generate_u8_in_range(0, 100)
 }
