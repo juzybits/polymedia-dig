@@ -28,6 +28,7 @@ import { Toaster } from "react-hot-toast";
 import { BrowserRouter, Link, Outlet, Route, Routes } from "react-router-dom";
 import { errorsByPackage, network, networkIds } from "@/app/config";
 import { AppContext } from "@/app/context";
+import { PageCertificate } from "@/pages/certificate";
 import { PageHome } from "@/pages/home";
 import { PageNotFound } from "@/pages/not-found";
 import { PageSettings } from "@/pages/settings";
@@ -40,6 +41,7 @@ export const AppRouter = () => (
 			<Route path="/" element={<AppSuiProviders />}>
 				<Route index element={<PageHome />} />
 				<Route path="/settings" element={<PageSettings />} />
+				<Route path="/certificate" element={<PageCertificate />} />
 				<Route path="*" element={<PageNotFound />} />
 			</Route>
 		</Routes>
