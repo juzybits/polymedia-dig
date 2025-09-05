@@ -4,8 +4,7 @@ module hole_certificate::hole_certificate;
 
 public struct HoleCertificate has key, store {
    id: UID,
-   // minter: address,
-   // owner: address,
+   digger: address,
    meters: u64,
 }
 
@@ -18,7 +17,7 @@ public struct CertificateRegistry has key {
 
 public struct HOLE_CERTIFICATE has drop {}
 
-fun init(otw: HOLE_CERTIFICATE, ctx: &mut TxContext) {
+fun init(_otw: HOLE_CERTIFICATE, ctx: &mut TxContext) {
    let registry = CertificateRegistry {
       id: object::new(ctx),
       certs: table::new(ctx),
@@ -53,6 +52,7 @@ entry fun mint(
 
    let cert = HoleCertificate {
       id: object::new(ctx),
+      digger: sender,
       meters: user_digs,
    };
 
