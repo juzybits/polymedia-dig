@@ -1,0 +1,9 @@
+[package]
+name = "hole_certificate"
+edition = "2024.beta"
+
+[dependencies]
+dig = { local = "../move" }
+
+[addresses]
+hole_certificate = "0x0"
