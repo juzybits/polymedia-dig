@@ -17,8 +17,11 @@ use dig::{
 
 const EDidNotDig: u64 = 1000;
 const EAlreadyMinted: u64 = 1001;
+const EWrongHole: u64 = 1002;
 
 // === constants ===
+
+const HOLE_ADDRESS: address = @0xedaa74161d02eed779518c9e11a31f0b29bcc29f5f510d6641ddaf64ec79d858;
 
 const TITLES: vector<vector<u8>> = vector[
    b"Chief Dirt Officer",
@@ -108,12 +111,14 @@ public fun certs(r: &CertificateRegistry): &Table<address, address> { &r.certs }
 // === user functions ===
 
 entry fun mint(
-   hole: &Hole, // TODO check ID
+   hole: &Hole,
    registry: &mut CertificateRegistry,
    r: &Random,
    ctx: &mut TxContext,
 ) {
    let digger = ctx.sender();
+
+   assert!(hole.id().to_address() == HOLE_ADDRESS, EWrongHole);
 
    let meters = hole.user_digs(digger);
    assert!(meters > 0, EDidNotDig);
