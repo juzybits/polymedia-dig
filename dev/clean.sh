@@ -9,11 +9,22 @@ SCRIPT_DIR="$( dirname "$(readlink -f "${BASH_SOURCE[0]}")" )"
 PATH_PROJECT="$( cd "$SCRIPT_DIR/.." && pwd )"
 
 clean_js() {
-	rm -rf dist/ node_modules/ *.tsbuildinfo .turbo/ .wrangler/
+	rm -rf \
+		dist/ \
+		node_modules/ \
+		*.tsbuildinfo \
+		.turbo/ \
+		.wrangler/
 }
 
 clean_move() {
-	rm -rf .coverage_map.mvcov .trace sui-prover.log.* build/ package_summaries/ traces/
+	rm -rf \
+		.coverage_map.mvcov \
+		.trace \
+		sui-prover.log.* \
+		build/ \
+		package_summaries/ \
+		traces/
 }
 
 cd $PATH_PROJECT/web
